@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nlp on cedar&#39;s blog</title>
+    <link>http://cedarbye.github.io/tags/nlp/</link>
+    <description>Recent content in Nlp on cedar&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 24 Mar 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://cedarbye.github.io/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>分词算法——mmseg</title>
+      <link>http://cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</link>
+      <pubDate>Thu, 24 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</guid>
+      <description>
+
+&lt;p&gt;上面说完最大匹配算法，可是准确的似乎不高，啥正向最大匹配啊，说白了，就是拿着你的字典然后对文本进行暴力切割，这种算法切割出来的错误率肯定超级高，算法原理满大街都是，就不说了，时间复杂度倒挺低O(n)。&lt;/p&gt;
+
+&lt;p&gt;接着就换算法，学习了个也比较简单的mmseg算法，这是台湾同胞提出来的，其实就是对正向最大匹配算法进行了优化，这里的优化不是指优化时间复杂度，是优化降低错误率的，但是也会出现很奇葩的错误，让人看了都蛋疼。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://technology.chtsai.org/mmseg/&#34;&gt;算法的原文&lt;/a&gt;，中文有翻译的。其实就是用了四个判断的法则：&lt;/p&gt;
+
+&lt;p&gt;算法的说明也是满大街都是,简单给个&lt;a href=&#34;http://www.byywee.com/page/M0/S602/602088.html&#34;&gt;博客&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;斯坦福大学有个具体的&lt;a href=&#34;http://nlp.stanford.edu/software/segmenter.shtml&#34;&gt;实现包&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;这里举个正向最大匹配和mmseg算法对同样的文本切割后的效果吧：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;南京市长江大桥欢迎您
+
+&lt;ul&gt;
+&lt;li&gt;正向最大匹配：南京/市长/江/大桥/欢迎您&lt;/li&gt;
+&lt;li&gt;mmseg的方法：南京市/长江大桥/欢迎您&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;研究生命科学
+
+&lt;ul&gt;
+&lt;li&gt;正向最大匹配：研究生/命/科学&lt;/li&gt;
+&lt;li&gt;mmseg的方法：研究/生命/科学&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;长春市长春药店
+
+&lt;ul&gt;
+&lt;li&gt;正向最大匹配：长春/市长/春药/店&lt;/li&gt;
+&lt;li&gt;mmseg的方法：长春市/长春/药店&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;台湾国中学生
+
+&lt;ul&gt;
+&lt;li&gt;正向最大匹配：台湾国/中学生&lt;/li&gt;
+&lt;li&gt;mmseg的方法：台湾/国中/学生&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;当然这些匹配的结果都取决于您的字典&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&#34;mmseg方法:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;mmseg方法&lt;/h1&gt;
+
+&lt;h2 id=&#34;匹配方法:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;匹配方法&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Simple方法，即简单的正向匹配，根据开头的字，列出所有可能的结果。&lt;/p&gt;
+
+&lt;p&gt;比如“一个劲儿的说话”，可以得到&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;一个&lt;br /&gt;
+一个劲&lt;br /&gt;
+一个劲儿&lt;br /&gt;
+一个劲儿的&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这四个匹配结果（假设这四个词都包含在词典里）。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Complex方法，匹配出所有的“三个词的词组”（原文中使用了chunk，这里感觉用“词组”比较合适），即从某一既定的字为起始位置，得到所有可能的“以三个词为一组”的所有组合。&lt;/p&gt;
+
+&lt;p&gt;比如“研究生命起源”，可以得到&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;研 \究 \生&lt;br /&gt;
+研 \究 \生命&lt;br /&gt;
+研究生 \命 \起源&lt;br /&gt;
+研究 \生命 \起源&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这些“词组”（根据词典，可能远不止这些，仅此举例）&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;消除歧义的规则:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;消除歧义的规则&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Maximum matching (最大匹配)&lt;/p&gt;
+
+&lt;p&gt;有两种情况，分别对应于使用“simple”和“complex”的匹配方法。&lt;/p&gt;
+
+&lt;p&gt;对“simple”匹配方法，选择长度最大的词，用在上文的例子中即选择“一个劲儿的”&lt;/p&gt;
+
+&lt;p&gt;对“complex”匹配方法，选择“词组长度最大的”那个词组，然后选择这个词组的第一个词，作为切分出的第一个词，上文的例子中即“研究生 命 起源”中的“研究生”，或者“研究 生命 起源”中的“研究”。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Largest average word length（最大平均词语长度）&lt;/p&gt;
+
+&lt;p&gt;经过规则1过滤后，如果剩余的词组超过1个，那就选择平均词语长度最大的那个（平均词长＝词组总字数/词语数量）。&lt;/p&gt;
+
+&lt;p&gt;比如“生活水平”，可能得到如下词组：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;生 \活水 \平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt;=1.33)&lt;br /&gt;
+生活 \水 \平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt;=1.33)&lt;br /&gt;
+生活 \水平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;2&lt;/sub&gt;=2)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;根据此规则，就可以确定选择“生活水平”这个词组&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Smallest variance of word lengths（词语长度的最小变化率）&lt;/p&gt;
+
+&lt;p&gt;由于词语长度的变化率可以由&lt;a href=&#34;http://baike.baidu.com/view/78339.htm&#34;&gt;标准差&lt;/a&gt;反映，所以此处直接套用标准差公式即可。&lt;/p&gt;
+
+&lt;p&gt;比如:
+&amp;gt;
+研究 \生命 \起源 （标准差=sqrt(((2-2)^2+(2-2)^2+(2-2^2))/3)=0）&lt;br /&gt;
+研究生 \命 \起源 （标准差=sqrt(((2-3)^2+(2-1)^2+(2-2)^2)/3)=0.8165）&lt;/p&gt;
+
+&lt;p&gt;于是选择“研究 \生命 \起源”这个词组。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Largest sum of degree of morphemic freedom of one-character words&lt;/p&gt;
+
+&lt;p&gt;其中degree of morphemic freedom可以用一个数学公式表达：log(frequency)，即词频的自然对数（这里log表示数学中的ln）。这个规则的意思是“计算词组中的所有单字词词频的自然对数，然后将得到的值相加，取总和最大的词组”。&lt;/p&gt;
+
+&lt;p&gt;比如：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;设施 \和服 \务&lt;br /&gt;
+设施 \和 \服务&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这两个词组中分别有“务”和“和”这两个单字词，假设“务”作为单字词时候的频率是5，“和”作为单字词时候的频率是10，对5和10取自然对数，然后取最大值者，所以取“和”字所在的词组，即“设施_和_服务”。&lt;br /&gt;
+也许会问为什么要对“词频”取自然对数呢？可以这样理解，词组中单字词词频总和可能一样，但是实际的效果并不同.&lt;/p&gt;
+
+&lt;p&gt;比如:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;A \BBB \C （单字词词频，A:3， C:7）&lt;br /&gt;
+DD \E \F （单字词词频，E:5，F:5）&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;表示两个词组，A、C、E、F表示不同的单字词，如果不取自然对数，单纯就词频来计算，那么这两个词组是一样的（3+7=5+5），但实际上不同的词频范围所表示的效果也不同，所以这里取自然对数，以表区分（ln(3)+ln(7) &amp;lt; ln(5)+ln(5)， 3.0445&amp;lt;3.2189）。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这个四个过滤规则中，如果使用simple的匹配方法，只能使用第一个规则过滤，如果使用complex的匹配方法，则四个规则都可以使用。实际使用中，一般都是使用complex的匹配方法＋四个规则过滤。（simple的匹配方法实质上就是正向最大匹配，实际中很少只用这一个方法）。&lt;/p&gt;
+
+&lt;p&gt;看到这里也许对MMSEG的分词方法有了一个大致的了解，正如文章开头所述，它是一个“直观”的分词方法。它把一个句子“尽可能长（这里的长，是指所切分的词尽可能的长）”“尽可能均匀”的区切分，稍微想象一下，便感觉与中文的语法习惯比较相符。如果对分词精度要求不是特别高，MMSEG是一个简单、可行、快速的方法。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;大家在看了上面的博客，理解了什么是mmseg算法再往下看&lt;br /&gt;
+具体Python代码如下：PyMmseg.py&lt;br /&gt;
+此代码参照google code的一个代码，经过了我自己的修改和自己去其的理解&lt;br /&gt;
+代码结构说明：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Word类就相当于C语言中的结构体，用来存单词和词频的&lt;br /&gt;
+Chunk类是用来实现具体的切割判断方法的前期预处理计算的&lt;br /&gt;
+ComplexCompare类是用来具体实现mmseg算法的四种评估方法的&lt;br /&gt;
+有几个全局变量和全局函数是用来加载字典的，用全局是为了不让字典多次的加载&lt;br /&gt;
+Analysis类是用来具体实现切割算法的&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;class Word:  
+    def __init__(self,text = &#39;&#39;,freq = 0):  
+        self.text = text  
+        self.freq = freq  
+        self.length = len(text)  
+
+class Chunk:  
+    def __init__(self,w1,w2 = None,w3 = None):  
+        self.words = []  
+        self.words.append(w1)  
+        if w2:  
+            self.words.append(w2)  
+        if w3:  
+            self.words.append(w3)  
+
+    #计算chunk的总长度  
+    def totalWordLength(self):  
+        length = 0  
+        for word in self.words:  
+            length += len(word.text)  
+        return length  
+
+    #计算平均长度  
+    def averageWordLength(self):  
+        return float(self.totalWordLength()) / float(len(self.words))  
+
+    #计算标准差  
+    def standardDeviation(self):  
+        average = self.averageWordLength()  
+        sum = 0.0  
+        for word in self.words:  
+            tmp = (len(word.text) - average)  
+            sum += float(tmp) * float(tmp)  
+        return sum  
+
+    #自由语素度  
+    def wordFrequency(self):  
+        sum = 0  
+        for word in self.words:  
+            sum += word.freq  
+        return sum  
+
+class ComplexCompare:  
+
+    def takeHightest(self,chunks,comparator):  
+        i = 1  
+        for j in range(1, len(chunks)):  
+            rlt = comparator(chunks[j], chunks[0])  
+            if rlt &amp;gt; 0:  
+                i = 0  
+            if rlt &amp;gt;= 0:  
+                chunks[i], chunks[j] = chunks[j], chunks[i]  
+                i += 1  
+        return chunks[0:i]  
+
+    #以下四个函数是mmseg算法的四种过滤原则，核心算法  
+    def mmFilter(self,chunks):  
+        def comparator(a,b):  
+            return a.totalWordLength() - b.totalWordLength()  
+        return self.takeHightest(chunks,comparator)  
+
+    def lawlFilter(self,chunks):  
+        def comparator(a,b):  
+            return a.averageWordLength() - b.averageWordLength()  
+        return self.takeHightest(chunks,comparator)  
+
+    def svmlFilter(self,chunks):  
+        def comparator(a,b):  
+            return b.standardDeviation() - a.standardDeviation()  
+        return self.takeHightest(chunks, comparator)  
+
+    def logFreqFilter(self,chunks):  
+        def comparator(a,b):  
+            return a.wordFrequency() - b.wordFrequency()  
+        return self.takeHightest(chunks, comparator)  
+
+
+#加载词组字典和字符字典  
+dictWord = {}  
+maxWordLength = 0  
+
+def loadDictChars(filepath):  
+    global maxWordLength  
+    fsock = file(filepath)  
+    for line in fsock.readlines():  
+        freq, word = line.split(&#39; &#39;)  
+        word = unicode(word.strip(), &#39;utf-8&#39;)  
+        dictWord[word] = (len(word), int(freq))  
+        maxWordLength = maxWordLength &amp;lt; len(word) and len(word) or maxWordLength  
+    fsock.close()  
+
+def loadDictWords(filepath):  
+    global maxWordLength  
+    fsock = file(filepath)  
+    for line in fsock.readlines():  
+        word = unicode(line.strip(), &#39;utf-8&#39;)  
+        dictWord[word] = (len(word), 0)  
+        maxWordLength = maxWordLength &amp;lt; len(word) and len(word) or maxWordLength  
+    fsock.close()  
+
+#判断该词word是否在字典dictWord中      
+def getDictWord(word):  
+    result = dictWord.get(word)  
+    if result:  
+        return Word(word,result[1])  
+    return None  
+
+#开始加载字典  
+def run():  
+    from os.path import join, dirname  
+    loadDictChars(join(dirname(__file__), &#39;data&#39;, &#39;chars.dic&#39;))  
+    loadDictWords(join(dirname(__file__), &#39;data&#39;, &#39;words.dic&#39;))  
+
+class Analysis:  
+
+    def __init__(self,text):  
+        if isinstance(text,unicode):  
+            self.text = text  
+        else:  
+            self.text = text.encode(&#39;utf-8&#39;)  
+        self.cacheSize = 3  
+        self.pos = 0  
+        self.textLength = len(self.text)  
+        self.cache = []  
+        self.cacheIndex = 0  
+        self.complexCompare = ComplexCompare()  
+
+        #简单小技巧，用到个缓存，不知道具体有没有用处  
+        for i in range(self.cacheSize):  
+            self.cache.append([-1,Word()])  
+
+        #控制字典只加载一次  
+        if not dictWord:  
+            run()  
+
+    def __iter__(self):  
+        while True:  
+            token = self.getNextToken()  
+            if token == None:  
+                raise StopIteration  
+            yield token  
+
+    def getNextChar(self):  
+        return self.text[self.pos]  
+
+    #判断该字符是否是中文字符（不包括中文标点）    
+    def isChineseChar(self,charater):  
+        return 0x4e00 &amp;lt;= ord(charater) &amp;lt; 0x9fa6  
+
+    #判断是否是ASCII码  
+    def isASCIIChar(self, ch):  
+        import string  
+        if ch in string.whitespace:  
+            return False  
+        if ch in string.punctuation:  
+            return False  
+        return ch in string.printable  
+
+    #得到下一个切割结果  
+    def getNextToken(self):  
+        while self.pos &amp;lt; self.textLength:  
+            if self.isChineseChar(self.getNextChar()):  
+                token = self.getChineseWords()  
+            else :  
+                token = self.getASCIIWords()+&#39;/&#39;  
+            if len(token) &amp;gt; 0:  
+                return token  
+        return None  
+
+    #切割出非中文词  
+    def getASCIIWords(self):  
+        # Skip pre-word whitespaces and punctuations  
+        #跳过中英文标点和空格  
+        while self.pos &amp;lt; self.textLength:  
+            ch = self.getNextChar()  
+            if self.isASCIIChar(ch) or self.isChineseChar(ch):  
+                break  
+            self.pos += 1  
+        #得到英文单词的起始位置      
+        start = self.pos  
+
+        #找出英文单词的结束位置  
+        while self.pos &amp;lt; self.textLength:  
+            ch = self.getNextChar()  
+            if not self.isASCIIChar(ch):  
+                break  
+            self.pos += 1  
+        end = self.pos  
+
+        #Skip chinese word whitespaces and punctuations  
+        #跳过中英文标点和空格  
+        while self.pos &amp;lt; self.textLength:  
+            ch = self.getNextChar()  
+            if self.isASCIIChar(ch) or self.isChineseChar(ch):  
+                break  
+            self.pos += 1  
+
+        #返回英文单词  
+        return self.text[start:end]  
+
+    #切割出中文词，并且做处理，用上述4种方法  
+    def getChineseWords(self):  
+        chunks = self.createChunks()  
+        if len(chunks) &amp;gt; 1:  
+            chunks = self.complexCompare.mmFilter(chunks)  
+        if len(chunks) &amp;gt; 1:  
+            chunks = self.complexCompare.lawlFilter(chunks)  
+        if len(chunks) &amp;gt; 1:  
+            chunks = self.complexCompare.svmlFilter(chunks)  
+        if len(chunks) &amp;gt; 1:  
+            chunks = self.complexCompare.logFreqFilter(chunks)  
+        if len(chunks) == 0 :  
+            return &#39;&#39;  
+
+        #最后只有一种切割方法  
+        word = chunks[0].words  
+        token = &amp;quot;&amp;quot;  
+        length = 0  
+        for x in word:  
+            if x.length &amp;lt;&amp;gt; -1:  
+                token += x.text + &amp;quot;/&amp;quot;  
+                length += len(x.text)  
+        self.pos += length  
+        return token  
+
+    #三重循环来枚举切割方法，这里也可以运用递归来实现  
+    def createChunks(self):  
+        chunks = []  
+        originalPos = self.pos  
+        words1 = self.getMatchChineseWords()  
+
+        for word1 in words1:  
+            self.pos += len(word1.text)  
+            if self.pos &amp;lt; self.textLength:  
+                words2 = self.getMatchChineseWords()  
+                for word2 in words2:  
+                    self.pos += len(word2.text)  
+                    if self.pos &amp;lt; self.textLength:  
+                        words3 = self.getMatchChineseWords()  
+                        for word3 in words3:  
+                            print word3.length,word3.text  
+                            if word3.length == -1:  
+                                chunk = Chunk(word1,word2)  
+                                print &amp;quot;Ture&amp;quot;  
+                            else :  
+                                chunk = Chunk(word1,word2,word3)  
+                            chunks.append(chunk)  
+                    elif self.pos == self.textLength:  
+                        chunks.append(Chunk(word1,word2))  
+                    self.pos -= len(word2.text)  
+            elif self.pos == self.textLength:  
+                chunks.append(Chunk(word1))  
+            self.pos -= len(word1.text)  
+
+        self.pos = originalPos  
+        return chunks  
+
+    #运用正向最大匹配算法结合字典来切割中文文本    
+    def getMatchChineseWords(self):  
+        #use cache,check it   
+        for i in range(self.cacheSize):  
+            if self.cache[i][0] == self.pos:  
+                return self.cache[i][1]  
+
+        originalPos = self.pos  
+        words = []  
+        index = 0  
+        while self.pos &amp;lt; self.textLength:  
+            if index &amp;gt;= maxWordLength :  
+                break  
+            if not self.isChineseChar(self.getNextChar()):  
+                break  
+            self.pos += 1  
+            index += 1  
+
+            text = self.text[originalPos:self.pos]  
+            word = getDictWord(text)  
+            if word:  
+                words.append(word)  
+
+        self.pos = originalPos  
+        #没有词则放置个‘X’，将文本长度标记为-1  
+        if not words:  
+            word = Word()  
+            word.length = -1  
+            word.text = &#39;X&#39;  
+            words.append(word)  
+
+        self.cache[self.cacheIndex] = (self.pos,words)  
+        self.cacheIndex += 1  
+        if self.cacheIndex &amp;gt;= self.cacheSize:  
+            self.cacheIndex = 0  
+        return words  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是测试代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#-*- coding: utf-8 -*-  
+
+from PyMmseg import Analysis  
+
+def cuttest(text):  
+    #cut =  Analysis(text)  
+    wlist = [word for word in Analysis(text)]  
+    tmp = &amp;quot;&amp;quot;  
+    for w in wlist:  
+        tmp += w  
+    print tmp  
+    print &amp;quot;================================&amp;quot;  
+
+if __name__==&amp;quot;__main__&amp;quot;:  
+#   cuttest(u&amp;quot;研究生命来源&amp;quot;)  
+    cuttest(u&amp;quot;干脆就把那部蒙人的闲法给废了拉倒！RT @laoshipukong : 27日，全国人大常委会第三次审议侵权责任法草案，删除了有关医疗损害责任“举证倒置”的规定。在医患纠纷中本已处于弱势地位的消费者由此将陷入万劫不复的境地。 &amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;转载自&lt;a href=&#34;http://www.aiuxian.com/article/p-1976364.html&#34;&gt;爱悠闲&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
