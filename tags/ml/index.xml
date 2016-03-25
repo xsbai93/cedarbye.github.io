@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ml on cedar&#39;s blog</title>
-    <link>http://cedarbye.github.io/tags/ml/</link>
+    <link>cedarbye.github.io/tags/ml/</link>
     <description>Recent content in Ml on cedar&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Thu, 24 Mar 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://cedarbye.github.io/tags/ml/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="cedarbye.github.io/tags/ml/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>分词算法——mmseg</title>
-      <link>http://cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</link>
+      <link>/cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</link>
       <pubDate>Thu, 24 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</guid>
+      <guid>/cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</guid>
       <description>
 
 &lt;p&gt;上面说完最大匹配算法，可是准确的似乎不高，啥正向最大匹配啊，说白了，就是拿着你的字典然后对文本进行暴力切割，这种算法切割出来的错误率肯定超级高，算法原理满大街都是，就不说了，时间复杂度倒挺低O(n)。&lt;/p&gt;
 
 &lt;p&gt;接着就换算法，学习了个也比较简单的mmseg算法，这是台湾同胞提出来的，其实就是对正向最大匹配算法进行了优化，这里的优化不是指优化时间复杂度，是优化降低错误率的，但是也会出现很奇葩的错误，让人看了都蛋疼。&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://technology.chtsai.org/mmseg/&#34;&gt;算法的原文&lt;/a&gt;，中文有翻译的。其实就是用了四个判断的法则：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://technology.chtsai.org/mmseg/&#34;&gt;算法的原文&lt;/a&gt;，中文有翻译的。其实就是用了四个判断的法则，需要的可以查文档，这里略过&lt;/p&gt;
 
 &lt;p&gt;算法的说明也是满大街都是,简单给个&lt;a href=&#34;http://www.byywee.com/page/M0/S602/602088.html&#34;&gt;博客&lt;/a&gt;&lt;/p&gt;
 
@@ -62,10 +62,11 @@
 
 &lt;h1 id=&#34;mmseg方法:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;mmseg方法&lt;/h1&gt;
 
-&lt;h2 id=&#34;匹配方法:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;匹配方法&lt;/h2&gt;
+&lt;h2 id=&#34;匹配方法:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;&lt;strong&gt;匹配方法&lt;/strong&gt;&lt;/h2&gt;
 
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Simple方法，即简单的正向匹配，根据开头的字，列出所有可能的结果。&lt;/p&gt;
+&lt;h3 id=&#34;1-simple方法:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;1. Simple方法&lt;/h3&gt;
+
+&lt;p&gt;即简单的正向匹配，根据开头的字，列出所有可能的结果。&lt;/p&gt;
 
 &lt;p&gt;比如“一个劲儿的说话”，可以得到&lt;/p&gt;
 
@@ -76,48 +77,44 @@
 一个劲儿的&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;这四个匹配结果（假设这四个词都包含在词典里）。&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;这四个匹配结果（假设这四个词都包含在词典里）。&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;Complex方法，匹配出所有的“三个词的词组”（原文中使用了chunk，这里感觉用“词组”比较合适），即从某一既定的字为起始位置，得到所有可能的“以三个词为一组”的所有组合。&lt;/p&gt;
+&lt;h3 id=&#34;2-complex方法:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;2. Complex方法&lt;/h3&gt;
 
-&lt;p&gt;比如“研究生命起源”，可以得到&lt;/p&gt;
+&lt;p&gt;匹配出所有的“三个词的词组”（原文中使用了chunk，这里感觉用“词组”比较合适），即从某一既定的字为起始位置，得到所有可能的“以三个词为一组”的所有组合。&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;研 \究 \生&lt;br /&gt;
+&lt;p&gt;比如“研究生命起源”，可以得到
+&amp;gt;
+研 \究 \生&lt;br /&gt;
 研 \究 \生命&lt;br /&gt;
 研究生 \命 \起源&lt;br /&gt;
 研究 \生命 \起源&lt;/p&gt;
-&lt;/blockquote&gt;
 
-&lt;p&gt;这些“词组”（根据词典，可能远不止这些，仅此举例）&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;这些“词组”（根据词典，可能远不止这些，仅此举例）&lt;/p&gt;
 
-&lt;h2 id=&#34;消除歧义的规则:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;消除歧义的规则&lt;/h2&gt;
+&lt;h2 id=&#34;消除歧义的规则:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;&lt;strong&gt;消除歧义的规则&lt;/strong&gt;&lt;/h2&gt;
 
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Maximum matching (最大匹配)&lt;/p&gt;
+&lt;h3 id=&#34;1-maximum-matching-最大匹配:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;1. Maximum matching (最大匹配)&lt;/h3&gt;
 
 &lt;p&gt;有两种情况，分别对应于使用“simple”和“complex”的匹配方法。&lt;/p&gt;
 
 &lt;p&gt;对“simple”匹配方法，选择长度最大的词，用在上文的例子中即选择“一个劲儿的”&lt;/p&gt;
 
-&lt;p&gt;对“complex”匹配方法，选择“词组长度最大的”那个词组，然后选择这个词组的第一个词，作为切分出的第一个词，上文的例子中即“研究生 命 起源”中的“研究生”，或者“研究 生命 起源”中的“研究”。&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;对“complex”匹配方法，选择“词组长度最大的”那个词组，然后选择这个词组的第一个词，作为切分出的第一个词，上文的例子中即“研究生 命 起源”中的“研究生”，或者“研究 生命 起源”中的“研究”。&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;Largest average word length（最大平均词语长度）&lt;/p&gt;
+&lt;h3 id=&#34;2-largest-average-word-length-最大平均词语长度:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;2. Largest average word length（最大平均词语长度）&lt;/h3&gt;
 
 &lt;p&gt;经过规则1过滤后，如果剩余的词组超过1个，那就选择平均词语长度最大的那个（平均词长＝词组总字数/词语数量）。&lt;/p&gt;
 
-&lt;p&gt;比如“生活水平”，可能得到如下词组：&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;生 \活水 \平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt;=1.33)&lt;br /&gt;
+&lt;p&gt;比如“生活水平”，可能得到如下词组：
+&amp;gt;
+生 \活水 \平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt;=1.33)&lt;br /&gt;
 生活 \水 \平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt;=1.33)&lt;br /&gt;
 生活 \水平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;2&lt;/sub&gt;=2)&lt;/p&gt;
-&lt;/blockquote&gt;
 
-&lt;p&gt;根据此规则，就可以确定选择“生活水平”这个词组&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;根据此规则，就可以确定选择“生活水平”这个词组&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;Smallest variance of word lengths（词语长度的最小变化率）&lt;/p&gt;
+&lt;h3 id=&#34;3-smallest-variance-of-word-lengths-词语长度的最小变化率:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;3. Smallest variance of word lengths（词语长度的最小变化率）&lt;/h3&gt;
 
 &lt;p&gt;由于词语长度的变化率可以由&lt;a href=&#34;http://baike.baidu.com/view/78339.htm&#34;&gt;标准差&lt;/a&gt;反映，所以此处直接套用标准差公式即可。&lt;/p&gt;
 
@@ -126,9 +123,9 @@
 研究 \生命 \起源 （标准差=sqrt(((2-2)^2+(2-2)^2+(2-2^2))/3)=0）&lt;br /&gt;
 研究生 \命 \起源 （标准差=sqrt(((2-3)^2+(2-1)^2+(2-2)^2)/3)=0.8165）&lt;/p&gt;
 
-&lt;p&gt;于是选择“研究 \生命 \起源”这个词组。&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;于是选择“研究 \生命 \起源”这个词组。&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;Largest sum of degree of morphemic freedom of one-character words&lt;/p&gt;
+&lt;h3 id=&#34;4-largest-sum-of-degree-of-morphemic-freedom-of-one-character-words:c66c89eb3c614731ea63bf4d9bea6b95&#34;&gt;4. Largest sum of degree of morphemic freedom of one-character words&lt;/h3&gt;
 
 &lt;p&gt;其中degree of morphemic freedom可以用一个数学公式表达：log(frequency)，即词频的自然对数（这里log表示数学中的ln）。这个规则的意思是“计算词组中的所有单字词词频的自然对数，然后将得到的值相加，取总和最大的词组”。&lt;/p&gt;
 
@@ -139,7 +136,7 @@
 设施 \和 \服务&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;这两个词组中分别有“务”和“和”这两个单字词，假设“务”作为单字词时候的频率是5，“和”作为单字词时候的频率是10，对5和10取自然对数，然后取最大值者，所以取“和”字所在的词组，即“设施_和_服务”。&lt;br /&gt;
+&lt;p&gt;这两个词组中分别有“务”和“和”这两个单字词，假设“务”作为单字词时候的频率是5，“和”作为单字词时候的频率是10，对5和10取自然对数，然后取最大值者，所以取“和”字所在的词组，即“设施 /和 /服务”。&lt;br /&gt;
 也许会问为什么要对“词频”取自然对数呢？可以这样理解，词组中单字词词频总和可能一样，但是实际的效果并不同.&lt;/p&gt;
 
 &lt;p&gt;比如:&lt;/p&gt;
@@ -149,8 +146,7 @@
 DD \E \F （单字词词频，E:5，F:5）&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;表示两个词组，A、C、E、F表示不同的单字词，如果不取自然对数，单纯就词频来计算，那么这两个词组是一样的（3+7=5+5），但实际上不同的词频范围所表示的效果也不同，所以这里取自然对数，以表区分（ln(3)+ln(7) &amp;lt; ln(5)+ln(5)， 3.0445&amp;lt;3.2189）。&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;表示两个词组，A、C、E、F表示不同的单字词，如果不取自然对数，单纯就词频来计算，那么这两个词组是一样的（3+7=5+5），但实际上不同的词频范围所表示的效果也不同，所以这里取自然对数，以表区分（ln(3)+ln(7) &amp;lt; ln(5)+ln(5)， 3.0445&amp;lt;3.2189）。&lt;/p&gt;
 
 &lt;p&gt;这个四个过滤规则中，如果使用simple的匹配方法，只能使用第一个规则过滤，如果使用complex的匹配方法，则四个规则都可以使用。实际使用中，一般都是使用complex的匹配方法＋四个规则过滤。（simple的匹配方法实质上就是正向最大匹配，实际中很少只用这一个方法）。&lt;/p&gt;
 
@@ -159,8 +155,11 @@ DD \E \F （单字词词频，E:5，F:5）&lt;/p&gt;
 &lt;hr /&gt;
 
 &lt;p&gt;大家在看了上面的博客，理解了什么是mmseg算法再往下看&lt;br /&gt;
-具体Python代码如下：PyMmseg.py&lt;br /&gt;
-此代码参照google code的一个代码，经过了我自己的修改和自己去其的理解&lt;br /&gt;
+具体Python代码如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;cedarbye.github.io/code/20160324mmseg.py&#34;&gt;mmseg.py&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;此代码参照google code的一个代码，经过了我自己的修改和自己去其的理解&lt;br /&gt;
 代码结构说明：&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -171,322 +170,190 @@ ComplexCompare类是用来具体实现mmseg算法的四种评估方法的&lt;br 
 Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;pre&gt;&lt;code&gt;class Word:  
-    def __init__(self,text = &#39;&#39;,freq = 0):  
-        self.text = text  
-        self.freq = freq  
-        self.length = len(text)  
-
-class Chunk:  
-    def __init__(self,w1,w2 = None,w3 = None):  
-        self.words = []  
-        self.words.append(w1)  
-        if w2:  
-            self.words.append(w2)  
-        if w3:  
-            self.words.append(w3)  
-
-    #计算chunk的总长度  
-    def totalWordLength(self):  
-        length = 0  
-        for word in self.words:  
-            length += len(word.text)  
-        return length  
-
-    #计算平均长度  
-    def averageWordLength(self):  
-        return float(self.totalWordLength()) / float(len(self.words))  
-
-    #计算标准差  
-    def standardDeviation(self):  
-        average = self.averageWordLength()  
-        sum = 0.0  
-        for word in self.words:  
-            tmp = (len(word.text) - average)  
-            sum += float(tmp) * float(tmp)  
-        return sum  
-
-    #自由语素度  
-    def wordFrequency(self):  
-        sum = 0  
-        for word in self.words:  
-            sum += word.freq  
-        return sum  
-
-class ComplexCompare:  
-
-    def takeHightest(self,chunks,comparator):  
-        i = 1  
-        for j in range(1, len(chunks)):  
-            rlt = comparator(chunks[j], chunks[0])  
-            if rlt &amp;gt; 0:  
-                i = 0  
-            if rlt &amp;gt;= 0:  
-                chunks[i], chunks[j] = chunks[j], chunks[i]  
-                i += 1  
-        return chunks[0:i]  
-
-    #以下四个函数是mmseg算法的四种过滤原则，核心算法  
-    def mmFilter(self,chunks):  
-        def comparator(a,b):  
-            return a.totalWordLength() - b.totalWordLength()  
-        return self.takeHightest(chunks,comparator)  
-
-    def lawlFilter(self,chunks):  
-        def comparator(a,b):  
-            return a.averageWordLength() - b.averageWordLength()  
-        return self.takeHightest(chunks,comparator)  
-
-    def svmlFilter(self,chunks):  
-        def comparator(a,b):  
-            return b.standardDeviation() - a.standardDeviation()  
-        return self.takeHightest(chunks, comparator)  
-
-    def logFreqFilter(self,chunks):  
-        def comparator(a,b):  
-            return a.wordFrequency() - b.wordFrequency()  
-        return self.takeHightest(chunks, comparator)  
-
-
-#加载词组字典和字符字典  
-dictWord = {}  
-maxWordLength = 0  
-
-def loadDictChars(filepath):  
-    global maxWordLength  
-    fsock = file(filepath)  
-    for line in fsock.readlines():  
-        freq, word = line.split(&#39; &#39;)  
-        word = unicode(word.strip(), &#39;utf-8&#39;)  
-        dictWord[word] = (len(word), int(freq))  
-        maxWordLength = maxWordLength &amp;lt; len(word) and len(word) or maxWordLength  
-    fsock.close()  
-
-def loadDictWords(filepath):  
-    global maxWordLength  
-    fsock = file(filepath)  
-    for line in fsock.readlines():  
-        word = unicode(line.strip(), &#39;utf-8&#39;)  
-        dictWord[word] = (len(word), 0)  
-        maxWordLength = maxWordLength &amp;lt; len(word) and len(word) or maxWordLength  
-    fsock.close()  
-
-#判断该词word是否在字典dictWord中      
-def getDictWord(word):  
-    result = dictWord.get(word)  
-    if result:  
-        return Word(word,result[1])  
-    return None  
-
-#开始加载字典  
-def run():  
-    from os.path import join, dirname  
-    loadDictChars(join(dirname(__file__), &#39;data&#39;, &#39;chars.dic&#39;))  
-    loadDictWords(join(dirname(__file__), &#39;data&#39;, &#39;words.dic&#39;))  
-
-class Analysis:  
-
-    def __init__(self,text):  
-        if isinstance(text,unicode):  
-            self.text = text  
-        else:  
-            self.text = text.encode(&#39;utf-8&#39;)  
-        self.cacheSize = 3  
-        self.pos = 0  
-        self.textLength = len(self.text)  
-        self.cache = []  
-        self.cacheIndex = 0  
-        self.complexCompare = ComplexCompare()  
-
-        #简单小技巧，用到个缓存，不知道具体有没有用处  
-        for i in range(self.cacheSize):  
-            self.cache.append([-1,Word()])  
-
-        #控制字典只加载一次  
-        if not dictWord:  
-            run()  
-
-    def __iter__(self):  
-        while True:  
-            token = self.getNextToken()  
-            if token == None:  
-                raise StopIteration  
-            yield token  
-
-    def getNextChar(self):  
-        return self.text[self.pos]  
-
-    #判断该字符是否是中文字符（不包括中文标点）    
-    def isChineseChar(self,charater):  
-        return 0x4e00 &amp;lt;= ord(charater) &amp;lt; 0x9fa6  
-
-    #判断是否是ASCII码  
-    def isASCIIChar(self, ch):  
-        import string  
-        if ch in string.whitespace:  
-            return False  
-        if ch in string.punctuation:  
-            return False  
-        return ch in string.printable  
-
-    #得到下一个切割结果  
-    def getNextToken(self):  
-        while self.pos &amp;lt; self.textLength:  
-            if self.isChineseChar(self.getNextChar()):  
-                token = self.getChineseWords()  
-            else :  
-                token = self.getASCIIWords()+&#39;/&#39;  
-            if len(token) &amp;gt; 0:  
-                return token  
-        return None  
-
-    #切割出非中文词  
-    def getASCIIWords(self):  
-        # Skip pre-word whitespaces and punctuations  
-        #跳过中英文标点和空格  
-        while self.pos &amp;lt; self.textLength:  
-            ch = self.getNextChar()  
-            if self.isASCIIChar(ch) or self.isChineseChar(ch):  
-                break  
-            self.pos += 1  
-        #得到英文单词的起始位置      
-        start = self.pos  
-
-        #找出英文单词的结束位置  
-        while self.pos &amp;lt; self.textLength:  
-            ch = self.getNextChar()  
-            if not self.isASCIIChar(ch):  
-                break  
-            self.pos += 1  
-        end = self.pos  
-
-        #Skip chinese word whitespaces and punctuations  
-        #跳过中英文标点和空格  
-        while self.pos &amp;lt; self.textLength:  
-            ch = self.getNextChar()  
-            if self.isASCIIChar(ch) or self.isChineseChar(ch):  
-                break  
-            self.pos += 1  
-
-        #返回英文单词  
-        return self.text[start:end]  
-
-    #切割出中文词，并且做处理，用上述4种方法  
-    def getChineseWords(self):  
-        chunks = self.createChunks()  
-        if len(chunks) &amp;gt; 1:  
-            chunks = self.complexCompare.mmFilter(chunks)  
-        if len(chunks) &amp;gt; 1:  
-            chunks = self.complexCompare.lawlFilter(chunks)  
-        if len(chunks) &amp;gt; 1:  
-            chunks = self.complexCompare.svmlFilter(chunks)  
-        if len(chunks) &amp;gt; 1:  
-            chunks = self.complexCompare.logFreqFilter(chunks)  
-        if len(chunks) == 0 :  
-            return &#39;&#39;  
-
-        #最后只有一种切割方法  
-        word = chunks[0].words  
-        token = &amp;quot;&amp;quot;  
-        length = 0  
-        for x in word:  
-            if x.length &amp;lt;&amp;gt; -1:  
-                token += x.text + &amp;quot;/&amp;quot;  
-                length += len(x.text)  
-        self.pos += length  
-        return token  
-
-    #三重循环来枚举切割方法，这里也可以运用递归来实现  
-    def createChunks(self):  
-        chunks = []  
-        originalPos = self.pos  
-        words1 = self.getMatchChineseWords()  
-
-        for word1 in words1:  
-            self.pos += len(word1.text)  
-            if self.pos &amp;lt; self.textLength:  
-                words2 = self.getMatchChineseWords()  
-                for word2 in words2:  
-                    self.pos += len(word2.text)  
-                    if self.pos &amp;lt; self.textLength:  
-                        words3 = self.getMatchChineseWords()  
-                        for word3 in words3:  
-                            print word3.length,word3.text  
-                            if word3.length == -1:  
-                                chunk = Chunk(word1,word2)  
-                                print &amp;quot;Ture&amp;quot;  
-                            else :  
-                                chunk = Chunk(word1,word2,word3)  
-                            chunks.append(chunk)  
-                    elif self.pos == self.textLength:  
-                        chunks.append(Chunk(word1,word2))  
-                    self.pos -= len(word2.text)  
-            elif self.pos == self.textLength:  
-                chunks.append(Chunk(word1))  
-            self.pos -= len(word1.text)  
-
-        self.pos = originalPos  
-        return chunks  
-
-    #运用正向最大匹配算法结合字典来切割中文文本    
-    def getMatchChineseWords(self):  
-        #use cache,check it   
-        for i in range(self.cacheSize):  
-            if self.cache[i][0] == self.pos:  
-                return self.cache[i][1]  
-
-        originalPos = self.pos  
-        words = []  
-        index = 0  
-        while self.pos &amp;lt; self.textLength:  
-            if index &amp;gt;= maxWordLength :  
-                break  
-            if not self.isChineseChar(self.getNextChar()):  
-                break  
-            self.pos += 1  
-            index += 1  
-
-            text = self.text[originalPos:self.pos]  
-            word = getDictWord(text)  
-            if word:  
-                words.append(word)  
-
-        self.pos = originalPos  
-        #没有词则放置个‘X’，将文本长度标记为-1  
-        if not words:  
-            word = Word()  
-            word.length = -1  
-            word.text = &#39;X&#39;  
-            words.append(word)  
-
-        self.cache[self.cacheIndex] = (self.pos,words)  
-        self.cacheIndex += 1  
-        if self.cacheIndex &amp;gt;= self.cacheSize:  
-            self.cacheIndex = 0  
-        return words  
-&lt;/code&gt;&lt;/pre&gt;
-
 &lt;p&gt;下面是测试代码&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;#-*- coding: utf-8 -*-  
-
-from PyMmseg import Analysis  
-
-def cuttest(text):  
-    #cut =  Analysis(text)  
-    wlist = [word for word in Analysis(text)]  
-    tmp = &amp;quot;&amp;quot;  
-    for w in wlist:  
-        tmp += w  
-    print tmp  
-    print &amp;quot;================================&amp;quot;  
-
-if __name__==&amp;quot;__main__&amp;quot;:  
-#   cuttest(u&amp;quot;研究生命来源&amp;quot;)  
-    cuttest(u&amp;quot;干脆就把那部蒙人的闲法给废了拉倒！RT @laoshipukong : 27日，全国人大常委会第三次审议侵权责任法草案，删除了有关医疗损害责任“举证倒置”的规定。在医患纠纷中本已处于弱势地位的消费者由此将陷入万劫不复的境地。 &amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href=&#34;cedarbye.github.io/code/20160324mmseg_test.py&#34;&gt;mmseg_test.py&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;转载自&lt;a href=&#34;http://www.aiuxian.com/article/p-1976364.html&#34;&gt;爱悠闲&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>机器学习——支持向量机算法(SVM)</title>
+      <link>/cedarbye.github.io/post/2016/2016_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95%28SVM%29/</link>
+      <pubDate>Mon, 21 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/cedarbye.github.io/post/2016/2016_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95%28SVM%29/</guid>
+      <description>
+
+&lt;p&gt;关于SVM的论文、书籍都非常的多，引用强哥的话“SVM是让应用数学家真正得到应用的一种算法”。SVM对于大部分的普通人来说，要完全理解其中的数学是非常困难的，所以要让这些普通人理解，得要把里面的数学知识用简单的语言去讲解才行。而且想明白了这些数学，对学习其他的内容也是大有裨益的。我就是属于绝大多数的普通人，为了看明白SVM，看了不少的资料，这里把我的心得分享分享。&lt;/p&gt;
+
+&lt;p&gt;其实现在能够找到的，关于SVM的中文资料已经不少了，不过个人觉得，每个人的理解都不太一样，所以还是决定写一写，一些雷同的地方肯定是不可避免的，不过还是希望能够写出一点与别人不一样的地方吧。另外本文准备不谈太多的数学（因为很多文章都谈过了），尽量简单地给出结论，就像题目一样-机器学习中的算法（之前叫做机器学习中的数学），所以本系列的内容将更偏重应用一些。如果想看更详细的数学解释，可以看看参考文献中的资料。&lt;/p&gt;
+
+&lt;h2 id=&#34;1-线性分类器:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;1. 线性分类器：&lt;/h2&gt;
+
+&lt;p&gt;首先给出一个非常非常简单的分类问题（线性可分），我们要用一条直线，将下图中黑色的点和白色的点分开，很显然，图上的这条直线就是我们要求的直线之一（可以有无数条这样的直线）。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032101.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;假如说，我们令黑色的点 = -1， 白色的点 = +1，直线f(x) = w.x + b这儿的x、w是向量，其实写成这种形式也是等价的f(x) = w1x1 + w2x2 … + wnxn + b， 当向量x的维度=2的时候，f(x)表示二维空间中的一条直线，当x的维度=3的时候，f(x)表示3维空间中的一个平面，当x的维度=n &amp;gt; 3的时候，表示n维空间中的n-1维超平面。这些都是比较基础的内容，如果不太清楚，可能需要复习一下微积分、线性代数的内容。&lt;/p&gt;
+
+&lt;p&gt;刚刚说了，我们令黑色白色两类的点分别为+1, -1，所以当有一个新的点x需要预测属于哪个分类的时候，我们用sgn(f(x))，就可以预测了，sgn表示符号函数，当f(x) &amp;gt; 0的时候，sgn(f(x)) = +1, 当f(x) &amp;lt; 0的时候sgn(f(x)) = –1。&lt;/p&gt;
+
+&lt;p&gt;但是，我们怎样才能取得一个最优的划分直线f(x)呢？下图的直线表示几条可能的f(x)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032102.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;一个很直观的感受是，让这条直线到给定样本中最近的点最远，这句话读起来比较拗口，下面给出几个图，来说明一下：&lt;/p&gt;
+
+&lt;p&gt;第一种分法：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032103.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;第二种分法：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032104.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这两种分法哪种更好呢？从直观上来说，就是分割的间隙越大越好，把两个类别的点分得越开越好。就像我们平时判断一个人是男还是女，就是很难出现分错的情况，这就是男、女两个类别之间的间隙非常的大导致的，让我们可以更准确的进行分类。在SVM中，称为&lt;strong&gt;Maximum Marginal&lt;/strong&gt;，是SVM的一个理论基础之一。选择使得间隙最大的函数作为分割平面是由很多道理的，比如说从概率的角度上来说，就是使得置信度最小的点置信度最大（听起来很拗口），从实践的角度来说，这样的效果非常好，等等。这里就不展开讲，作为一个结论就ok了，:)&lt;/p&gt;
+
+&lt;p&gt;上图被红色和蓝色的线圈出来的点就是所谓的支持向量(support vector)。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032105.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上图就是一个对之前说的类别中的间隙的一个描述。Classifier Boundary就是f(x)，红色和蓝色的线（plus plane与minus plane）就是support vector所在的面，红色、蓝色线之间的间隙就是我们要最大化的分类间的间隙。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032106.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这里直接给出M的式子：（从高中的解析几何就可以很容易的得到了，也可以参考后面Moore的ppt）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/22016032107.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;另外支持向量位于 wx + b = 1 与wx + b = -1的直线上，我们在前面乘上一个该点所属的类别y（还记得吗? y不是+1就是-1），就可以得到支持向量的表达式为：y(wx + b) = 1，这样就可以更简单的将支持向量表示出来了。&lt;/p&gt;
+
+&lt;p&gt;当支持向量确定下来的时候，分割函数就确定下来了，两个问题是等价的。得到支持向量，还有一个作用是，让支持向量后方那些点就不用参与计算了。这点在后面将会更详细的讲讲。&lt;/p&gt;
+
+&lt;p&gt;在这个小节的最后，给出我们要优化求解的表达式：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032108.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;||w||的意思是w的二范数，跟上面的M表达式的分母是一个意思，之前得到，M = 2 / ||w||，最大化这个式子等价于最小化||w||, 另外由于||w||是一个单调函数，我们可以对其加入平方，和前面的系数，熟悉的同学应该很容易就看出来了，这个式子是为了方便求导。&lt;/p&gt;
+
+&lt;p&gt;这个式子有还有一些限制条件，完整的写下来，应该是这样的：（*原问题*）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032109.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;s.t的意思是subject to，也就是在后面这个限制条件下的意思，这个词在svm的论文里面非常容易见到。这个其实是一个带约束的二次规划(quadratic programming, QP)问题，是一个凸问题，凸问题就是指的不会有局部最优解，可以想象一个漏斗，不管我们开始的时候将一个小球放在漏斗的什么位置，这个小球最终一定可以掉出漏斗，也就是得到全局最优解。s.t.后面的限制条件可以看做是一个凸多面体，我们要做的就是在这个凸多面体中找到最优解。这些问题这里不展开，因为展开的话，一本书也写不完。如果有疑问请看看wikipedia。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-转化为对偶问题-并优化求解:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;2. 转化为对偶问题，并优化求解:&lt;/h2&gt;
+
+&lt;p&gt;这个优化问题可以用*拉格朗日乘子法*去解，使用了*KKT条件*的理论，这里直接作出这个式子的拉格朗日目标函数：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032110.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;求解这个式子的过程需要*拉格朗日对偶性*的相关知识（另外pluskid也有一篇文章专门讲这个问题），并且有一定的公式推导，如果不感兴趣，可以直接跳到后面用&lt;strong&gt;蓝色公式&lt;/strong&gt;表示的结论，该部分推导主要参考自plukids的文章。&lt;/p&gt;
+
+&lt;p&gt;首先让L关于w，b最小化，分别令L关于w，b的偏导数为0，得到关于原问题的一个表达式&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032111.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;将两式带回L(w,b,a)得到对偶问题的表达式&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032112.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;新问题加上其限制条件是（*对偶问题*）:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032113.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这个就是我们需要最终优化的式子。至此，得到了线性可分问题的优化式子。&lt;/p&gt;
+
+&lt;p&gt;求解这个式子，有很多的方法，比如*SMO*等等，个人认为，求解这样的一个带约束的凸优化问题与得到这个凸优化问题是比较独立的两件事情，所以在这篇文章中准备完全不涉及如何求解这个话题，如果之后有时间可以补上一篇文章来谈谈:)。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-线性不可分的情况-软间隔:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;3. 线性不可分的情况（软间隔）：&lt;/h2&gt;
+
+&lt;p&gt;接下来谈谈线性不可分的情况，因为线性可分这种假设实在是太有局限性了：&lt;/p&gt;
+
+&lt;p&gt;下图就是一个典型的线性不可分的分类图，我们没有办法用一条直线去将其分成两个区域，每个区域只包含一种颜色的点。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032114.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;要想在这种情况下的分类器，有两种方式，一种是用曲线去将其完全分开，曲线就是一种非线性的情况，跟之后将谈到的核函数有一定的关系：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032115.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;另外一种还是用直线，不过不用去保证可分性，就是包容那些分错的情况，不过我们得加入惩罚函数，使得点分错的情况越合理越好。其实在很多时候，不是在训练的时候分类函数越完美越好，因为训练函数中有些数据本来就是噪声，可能就是在人工加上分类标签的时候加错了，如果我们在训练（学习）的时候把这些错误的点学习到了，那么模型在下次碰到这些错误情况的时候就难免出错了（假如老师给你讲课的时候，某个知识点讲错了，你还信以为真了，那么在考试的时候就难免出错）。这种学习的时候学到了“噪声”的过程就是一个过拟合（over-fitting），这在机器学习中是一个大忌，我们宁愿少学一些内容，也坚决杜绝多学一些错误的知识。还是回到主题，用直线怎么去分割线性不可分的点：&lt;/p&gt;
+
+&lt;p&gt;我们可以为分错的点加上一点惩罚，对一个分错的点的惩罚函数就是这个点到其正确位置的距离：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032116.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在上图中，蓝色、红色的直线分别为支持向量所在的边界，绿色的线为决策函数，那些紫色的线表示分错的点到其相应的决策面的距离，这样我们可以在原函数上面加上一个惩罚函数，并且带上其限制条件为：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032117.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;公式中蓝色的部分为在线性可分问题的基础上加上的惩罚函数部分，当xi在正确一边的时候，ε=0，R为全部的点的数目，C是一个由用户去指定的系数，表示对分错的点加入多少的惩罚，当C很大的时候，分错的点就会更少，但是过拟合的情况可能会比较严重，当C很小的时候，分错的点可能会很多，不过可能由此得到的模型也会不太正确，所以如何选择C是有很多学问的，不过在大部分情况下就是通过经验尝试得到的。&lt;/p&gt;
+
+&lt;p&gt;接下来就是同样的，求解一个拉格朗日对偶问题，得到一个原问题的对偶问题的表达式：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032118.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;蓝色的部分是与线性可分的对偶问题表达式的不同之处。在线性不可分情况下得到的对偶问题，不同的地方就是α的范围从[0, +∞)，变为了[0, C]，增加的惩罚ε没有为对偶问题增加什么复杂度。&lt;/p&gt;
+
+&lt;h2 id=&#34;4-核函数:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;4. 核函数：&lt;/h2&gt;
+
+&lt;p&gt;刚刚在谈不可分的情况下，提了一句，如果使用某些非线性的方法，可以得到将两个分类完美划分的曲线，比如接下来将要说的核函数。&lt;/p&gt;
+
+&lt;p&gt;我们可以让空间从原本的线性空间变成一个更高维的空间，在这个高维的线性空间下，再用一个超平面进行划分。这儿举个例子，来理解一下如何利用空间的维度变得更高来帮助我们分类的（例子以及图片来自pluskid的kernel函数部分）：&lt;/p&gt;
+
+&lt;p&gt;下图是一个典型的线性不可分的情况&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032119.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;但是当我们把这两个类似于椭圆形的点映射到一个高维空间后，映射函数为：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032120.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;用这个函数可以将上图的平面中的点映射到一个三维空间（z1,z2,z3)，并且对映射后的坐标加以旋转之后就可以得到一个线性可分的点集了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032121.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;用另外一个哲学例子来说：世界上本来没有两个完全一样的物体，对于所有的两个物体，我们可以通过增加维度来让他们最终有所区别，比如说两本书，从(颜色，内容)两个维度来说，可能是一样的，我们可以加上 作者 这个维度，是在不行我们还可以加入 页码，可以加入 拥有者，可以加入 购买地点，可以加入 笔记内容等等。当维度增加到无限维的时候，一定可以让任意的两个物体可分了。&lt;/p&gt;
+
+&lt;p&gt;回忆刚刚得到的对偶问题表达式：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032122.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;我们可以将红色这个部分进行改造，令：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032123.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这个式子所做的事情就是将线性的空间映射到高维的空间,k(x, xj)有很多种，下面是比较典型的两种：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032124.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上面这个核称为多项式核，下面这个核称为高斯核，高斯核甚至是将原始空间映射为无穷维空间，另外核函数有一些比较好的性质，比如说不会比线性条件下增加多少额外的计算量，等等，这里也不再深入。一般对于一个问题，不同的核函数可能会带来不同的结果，一般是需要尝试来得到的。&lt;/p&gt;
+
+&lt;h2 id=&#34;5-一些其他的问题:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;5. 一些其他的问题：&lt;/h2&gt;
+
+&lt;h3 id=&#34;如何进行多分类问题:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;如何进行多分类问题：&lt;/h3&gt;
+
+&lt;p&gt;上面所谈到的分类都是2分类的情况，当N分类的情况下，主要有两种方式：一种是1vs(N–1)一种是1vs1。&lt;/p&gt;
+
+&lt;p&gt;前一种方法我们需要训练N个分类器，第i个分类器是看看是属于分类i还是属于分类i的补集（出去i的N-1个分类）。&lt;/p&gt;
+
+&lt;p&gt;后一种方式我们需要训练N*(N–1)/2个分类器，分类器(i,j)能够判断某个点是属于i还是属于j。&lt;/p&gt;
+
+&lt;p&gt;这种处理方式不仅在SVM中会用到，在很多其他的分类中也是被广泛用到，从林教授（libsvm的作者）的结论来看，1vs1的方式要优于1vs(N–1)。&lt;/p&gt;
+
+&lt;h3 id=&#34;svm会overfitting吗:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;SVM会overfitting吗？&lt;/h3&gt;
+
+&lt;p&gt;SVM避免overfitting，一种是调整之前说的惩罚函数中的C，另一种其实从式子上来看，min ||w||^2这个看起来是不是很眼熟？在最小二乘法回归的时候，我们看到过这个式子，这个式子可以让函数更平滑，所以SVM是一种不太容易over-fitting的方法。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;参考文档：
+主要的参考文档来自4个地方，wikipedia（在文章中已经给出了超链接了），pluskid关于SVM的博文，Andrew moore的ppt（文章中不少图片都是引用或者改自Andrew Moore的ppt，以及prml&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/LeftNotEasy/archive/2011/05/02/basic-of-svm.html&#34;&gt;来源leftnoteasy&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
