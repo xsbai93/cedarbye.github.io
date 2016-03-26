@@ -83,12 +83,14 @@
 
 &lt;p&gt;匹配出所有的“三个词的词组”（原文中使用了chunk，这里感觉用“词组”比较合适），即从某一既定的字为起始位置，得到所有可能的“以三个词为一组”的所有组合。&lt;/p&gt;
 
-&lt;p&gt;比如“研究生命起源”，可以得到
-&amp;gt;
-研 \究 \生&lt;br /&gt;
+&lt;p&gt;比如“研究生命起源”，可以得到&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;研 \究 \生&lt;br /&gt;
 研 \究 \生命&lt;br /&gt;
 研究生 \命 \起源&lt;br /&gt;
 研究 \生命 \起源&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;这些“词组”（根据词典，可能远不止这些，仅此举例）&lt;/p&gt;
 
@@ -106,11 +108,13 @@
 
 &lt;p&gt;经过规则1过滤后，如果剩余的词组超过1个，那就选择平均词语长度最大的那个（平均词长＝词组总字数/词语数量）。&lt;/p&gt;
 
-&lt;p&gt;比如“生活水平”，可能得到如下词组：
-&amp;gt;
-生 \活水 \平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt;=1.33)&lt;br /&gt;
+&lt;p&gt;比如“生活水平”，可能得到如下词组：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;生 \活水 \平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt;=1.33)&lt;br /&gt;
 生活 \水 \平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt;=1.33)&lt;br /&gt;
 生活 \水平 (&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;2&lt;/sub&gt;=2)&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;根据此规则，就可以确定选择“生活水平”这个词组&lt;/p&gt;
 
@@ -118,10 +122,12 @@
 
 &lt;p&gt;由于词语长度的变化率可以由&lt;a href=&#34;http://baike.baidu.com/view/78339.htm&#34;&gt;标准差&lt;/a&gt;反映，所以此处直接套用标准差公式即可。&lt;/p&gt;
 
-&lt;p&gt;比如:
-&amp;gt;
-研究 \生命 \起源 （标准差=sqrt(((2-2)^2+(2-2)^2+(2-2^2))/3)=0）&lt;br /&gt;
+&lt;p&gt;比如:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;研究 \生命 \起源 （标准差=sqrt(((2-2)^2+(2-2)^2+(2-2^2))/3)=0）&lt;br /&gt;
 研究生 \命 \起源 （标准差=sqrt(((2-3)^2+(2-1)^2+(2-2)^2)/3)=0.8165）&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;于是选择“研究 \生命 \起源”这个词组。&lt;/p&gt;
 

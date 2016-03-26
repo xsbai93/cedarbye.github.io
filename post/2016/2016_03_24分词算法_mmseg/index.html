@@ -10,13 +10,14 @@
         <meta name="generator" content="Hugo 0.15" />
           <link href="/cedarbye.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="cedar&#39;s blog" />
           <link href="/cedarbye.github.io/post/index.xml" rel="feed" type="application/rss+xml" title="cedar&#39;s blog" />
-        
+        <link rel="stylesheet" href="http://fonts.useso.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface" type="text/css">
         <link rel="stylesheet" href="/cedarbye.github.io/css/github.min.css">
         <link rel="stylesheet" href="/cedarbye.github.io/css/styles.css">
         <link rel="icon" href="/cedarbye.github.io/favicon.ico">
         <link rel="apple-touch-icon" href="/cedarbye.github.io/apple-touch-icon.png" />
         <script src="/cedarbye.github.io/js/vendor/modernizr-2.8.0.min.js"></script>
-         <script src="/cedarbye.github.io/js/vendor/highlight.min.js"></script>
+        <script src="/cedarbye.github.io/js/vendor/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
         
         <style>
         .site-header h2 .logo {
@@ -131,12 +132,14 @@
 
 <p>匹配出所有的“三个词的词组”（原文中使用了chunk，这里感觉用“词组”比较合适），即从某一既定的字为起始位置，得到所有可能的“以三个词为一组”的所有组合。</p>
 
-<p>比如“研究生命起源”，可以得到
-&gt;
-研 \究 \生<br />
+<p>比如“研究生命起源”，可以得到</p>
+
+<blockquote>
+<p>研 \究 \生<br />
 研 \究 \生命<br />
 研究生 \命 \起源<br />
 研究 \生命 \起源</p>
+</blockquote>
 
 <p>这些“词组”（根据词典，可能远不止这些，仅此举例）</p>
 
@@ -154,11 +157,13 @@
 
 <p>经过规则1过滤后，如果剩余的词组超过1个，那就选择平均词语长度最大的那个（平均词长＝词组总字数/词语数量）。</p>
 
-<p>比如“生活水平”，可能得到如下词组：
-&gt;
-生 \活水 \平 (<sup>4</sup>&frasl;<sub>3</sub>=1.33)<br />
+<p>比如“生活水平”，可能得到如下词组：</p>
+
+<blockquote>
+<p>生 \活水 \平 (<sup>4</sup>&frasl;<sub>3</sub>=1.33)<br />
 生活 \水 \平 (<sup>4</sup>&frasl;<sub>3</sub>=1.33)<br />
 生活 \水平 (<sup>4</sup>&frasl;<sub>2</sub>=2)</p>
+</blockquote>
 
 <p>根据此规则，就可以确定选择“生活水平”这个词组</p>
 
@@ -166,10 +171,12 @@
 
 <p>由于词语长度的变化率可以由<a href="http://baike.baidu.com/view/78339.htm">标准差</a>反映，所以此处直接套用标准差公式即可。</p>
 
-<p>比如:
-&gt;
-研究 \生命 \起源 （标准差=sqrt(((2-2)^2+(2-2)^2+(2-2^2))/3)=0）<br />
+<p>比如:</p>
+
+<blockquote>
+<p>研究 \生命 \起源 （标准差=sqrt(((2-2)^2+(2-2)^2+(2-2^2))/3)=0）<br />
 研究生 \命 \起源 （标准差=sqrt(((2-3)^2+(2-1)^2+(2-2)^2)/3)=0.8165）</p>
+</blockquote>
 
 <p>于是选择“研究 \生命 \起源”这个词组。</p>
 
