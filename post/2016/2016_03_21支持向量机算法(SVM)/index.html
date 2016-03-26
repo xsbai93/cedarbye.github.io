@@ -8,27 +8,27 @@
         <meta name="description" content="The awesome blog of cedar.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="generator" content="Hugo 0.15" />
-          <link href="/cedarbye.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="cedar&#39;s blog" />
-          <link href="/cedarbye.github.io/post/index.xml" rel="feed" type="application/rss+xml" title="cedar&#39;s blog" />
+          <link href="https://cedarbye.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="cedar&#39;s blog" />
+          <link href="https://cedarbye.github.io/post/index.xml" rel="feed" type="application/rss+xml" title="cedar&#39;s blog" />
         <link rel="stylesheet" href="http://fonts.useso.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface" type="text/css">
-        <link rel="stylesheet" href="/cedarbye.github.io/css/github.min.css">
-        <link rel="stylesheet" href="/cedarbye.github.io/css/styles.css">
-        <link rel="icon" href="/cedarbye.github.io/favicon.ico">
-        <link rel="apple-touch-icon" href="/cedarbye.github.io/apple-touch-icon.png" />
-        <script src="/cedarbye.github.io/js/vendor/modernizr-2.8.0.min.js"></script>
-        <script src="/cedarbye.github.io/js/vendor/highlight.min.js"></script>
+        <link rel="stylesheet" href="https://cedarbye.github.io/css/github.min.css">
+        <link rel="stylesheet" href="https://cedarbye.github.io/css/styles.css">
+        <link rel="icon" href="https://cedarbye.github.io/favicon.ico">
+        <link rel="apple-touch-icon" href="https://cedarbye.github.io/apple-touch-icon.png" />
+        <script src="https://cedarbye.github.io/js/vendor/modernizr-2.8.0.min.js"></script>
+        <script src="https://cedarbye.github.io/js/vendor/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
         
         <style>
         .site-header h2 .logo {
-        background: url(/cedarbye.github.io/img/desk.jpg) no-repeat 0 0;
+        background: url(https://cedarbye.github.io/img/desk.jpg) no-repeat 0 0;
         }
         @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
           .site-header h2 .logo {
-            background-image: url(/cedarbye.github.io/img/desk.jpg);
+            background-image: url(https://cedarbye.github.io/img/desk.jpg);
         }}
        .site-header {
-         background: #2a373d url(/cedarbye.github.io/img/desk.jpg) no-repeat center center;
+         background: #2a373d url(https://cedarbye.github.io/img/desk.jpg) no-repeat center center;
          z-index: -1;
         }
         </style>
@@ -45,15 +45,15 @@
 <div class="container clearfix">
     <main role="main" class="content">
         <article class="post">
-            <a class="btn home" href="/cedarbye.github.io/" title="Back to home">&laquo; Back to home</a>
+            <a class="btn home" href="https://cedarbye.github.io/" title="Back to home">&laquo; Back to home</a>
             
-<h1><a href="/cedarbye.github.io/post/2016/2016_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95%28SVM%29/" title="机器学习——支持向量机算法(SVM)">机器学习——支持向量机算法(SVM)</a></h1>
+<h1><a href="https://cedarbye.github.io/post/2016/2016_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95%28SVM%29/" title="机器学习——支持向量机算法(SVM)">机器学习——支持向量机算法(SVM)</a></h1>
 
 <footer class="post-info">Posted on <span class="post-meta"><time datetime="2016.03.21">2016.03.21</time>
 
     &middot; Tagged in
         
-        <a href="/cedarbye.github.io/tags/ml">ml</a>
+        <a href="https://cedarbye.github.io/tags/ml">ml</a>
         
     
 
@@ -114,7 +114,7 @@
 
 <p>||w||的意思是w的二范数，跟上面的M表达式的分母是一个意思，之前得到，M = 2 / ||w||，最大化这个式子等价于最小化||w||, 另外由于||w||是一个单调函数，我们可以对其加入平方，和前面的系数，熟悉的同学应该很容易就看出来了，这个式子是为了方便求导。</p>
 
-<p>这个式子有还有一些限制条件，完整的写下来，应该是这样的：（*原问题*）</p>
+<p>这个式子有还有一些限制条件，完整的写下来，应该是这样的：（<em>原问题</em> ）</p>
 
 <p><img src="/img/2016032109.png" alt="" /></p>
 
@@ -122,11 +122,11 @@
 
 <h2 id="2-转化为对偶问题-并优化求解:4dc3caf6b4d7802d8f111a93db869fdc">2. 转化为对偶问题，并优化求解:</h2>
 
-<p>这个优化问题可以用*拉格朗日乘子法*去解，使用了*KKT条件*的理论，这里直接作出这个式子的拉格朗日目标函数：</p>
+<p>这个优化问题可以用<em>拉格朗日乘子法</em> 去解，使用了<em>KKT条件</em> 的理论，这里直接作出这个式子的拉格朗日目标函数：</p>
 
 <p><img src="/img/2016032110.png" alt="" /></p>
 
-<p>求解这个式子的过程需要*拉格朗日对偶性*的相关知识（另外pluskid也有一篇文章专门讲这个问题），并且有一定的公式推导，如果不感兴趣，可以直接跳到后面用<strong>蓝色公式</strong>表示的结论，该部分推导主要参考自plukids的文章。</p>
+<p>求解这个式子的过程需要<em>拉格朗日对偶性</em> 的相关知识（另外pluskid也有一篇文章专门讲这个问题），并且有一定的公式推导，如果不感兴趣，可以直接跳到后面用<em>蓝色公式</em> 表示的结论，该部分推导主要参考自plukids的文章。</p>
 
 <p>首先让L关于w，b最小化，分别令L关于w，b的偏导数为0，得到关于原问题的一个表达式</p>
 
@@ -136,13 +136,13 @@
 
 <p><img src="/img/2016032112.png" alt="" /></p>
 
-<p>新问题加上其限制条件是（*对偶问题*）:</p>
+<p>新问题加上其限制条件是（<em>对偶问题</em> ）:</p>
 
 <p><img src="/img/2016032113.png" alt="" /></p>
 
 <p>这个就是我们需要最终优化的式子。至此，得到了线性可分问题的优化式子。</p>
 
-<p>求解这个式子，有很多的方法，比如*SMO*等等，个人认为，求解这样的一个带约束的凸优化问题与得到这个凸优化问题是比较独立的两件事情，所以在这篇文章中准备完全不涉及如何求解这个话题，如果之后有时间可以补上一篇文章来谈谈:)。</p>
+<p>求解这个式子，有很多的方法，比如<em>SMO</em> 等等，个人认为，求解这样的一个带约束的凸优化问题与得到这个凸优化问题是比较独立的两件事情，所以在这篇文章中准备完全不涉及如何求解这个话题，如果之后有时间可以补上一篇文章来谈谈:)。</p>
 
 <h2 id="3-线性不可分的情况-软间隔:4dc3caf6b4d7802d8f111a93db869fdc">3. 线性不可分的情况（软间隔）：</h2>
 
@@ -234,16 +234,16 @@
             <ul class="share-buttons">
     <li>Share this article:</li>
     <li>
-        <a class="icon-facebook-squared" href="https://www.facebook.com/sharer/sharer.php?u=%2fcedarbye.github.io%2fpost%2f2016%2f2016_03_21%25E6%2594%25AF%25E6%258C%2581%25E5%2590%2591%25E9%2587%258F%25E6%259C%25BA%25E7%25AE%2597%25E6%25B3%2595%2528SVM%2529%2f" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook"></a>
+        <a class="icon-facebook-squared" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fcedarbye.github.io%2fpost%2f2016%2f2016_03_21%25E6%2594%25AF%25E6%258C%2581%25E5%2590%2591%25E9%2587%258F%25E6%259C%25BA%25E7%25AE%2597%25E6%25B3%2595%2528SVM%2529%2f" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook"></a>
     </li>
     <li>
-        <a class="icon-twitter" href="https://twitter.com/share?text=%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0%e2%80%94%e2%80%94%e6%94%af%e6%8c%81%e5%90%91%e9%87%8f%e6%9c%ba%e7%ae%97%e6%b3%95%28SVM%29&amp;url=%2fcedarbye.github.io%2fpost%2f2016%2f2016_03_21%25E6%2594%25AF%25E6%258C%2581%25E5%2590%2591%25E9%2587%258F%25E6%259C%25BA%25E7%25AE%2597%25E6%25B3%2595%2528SVM%2529%2f" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Tweet this article"></a>
+        <a class="icon-twitter" href="https://twitter.com/share?text=%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0%e2%80%94%e2%80%94%e6%94%af%e6%8c%81%e5%90%91%e9%87%8f%e6%9c%ba%e7%ae%97%e6%b3%95%28SVM%29&amp;url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2016%2f2016_03_21%25E6%2594%25AF%25E6%258C%2581%25E5%2590%2591%25E9%2587%258F%25E6%259C%25BA%25E7%25AE%2597%25E6%25B3%2595%2528SVM%2529%2f" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Tweet this article"></a>
     </li>
     <li>
-        <a class="icon-gplus" href="https://plus.google.com/share?url=%2fcedarbye.github.io%2fpost%2f2016%2f2016_03_21%25E6%2594%25AF%25E6%258C%2581%25E5%2590%2591%25E9%2587%258F%25E6%259C%25BA%25E7%25AE%2597%25E6%25B3%2595%2528SVM%2529%2f" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google&#43;"></a>
+        <a class="icon-gplus" href="https://plus.google.com/share?url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2016%2f2016_03_21%25E6%2594%25AF%25E6%258C%2581%25E5%2590%2591%25E9%2587%258F%25E6%259C%25BA%25E7%25AE%2597%25E6%25B3%2595%2528SVM%2529%2f" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google&#43;"></a>
     </li>
     <li>
-        <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=%2fcedarbye.github.io%2fpost%2f2016%2f2016_03_21%25E6%2594%25AF%25E6%258C%2581%25E5%2590%2591%25E9%2587%258F%25E6%259C%25BA%25E7%25AE%2597%25E6%25B3%2595%2528SVM%2529%2f&title=%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0%e2%80%94%e2%80%94%e6%94%af%e6%8c%81%e5%90%91%e9%87%8f%e6%9c%ba%e7%ae%97%e6%b3%95%28SVM%29" onclick="window.open(this.href, 'linkedin-share', 'width=600,height=494');return false;" title="Share on Linkedin"></a>
+        <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2016%2f2016_03_21%25E6%2594%25AF%25E6%258C%2581%25E5%2590%2591%25E9%2587%258F%25E6%259C%25BA%25E7%25AE%2597%25E6%25B3%2595%2528SVM%2529%2f&title=%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0%e2%80%94%e2%80%94%e6%94%af%e6%8c%81%e5%90%91%e9%87%8f%e6%9c%ba%e7%ae%97%e6%b3%95%28SVM%29" onclick="window.open(this.href, 'linkedin-share', 'width=600,height=494');return false;" title="Share on Linkedin"></a>
     </li>
 </ul>
 
@@ -253,9 +253,9 @@
             <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'cedarbye';
-    var disqus_identifier = '\/cedarbye.github.io\/post\/2016\/2016_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95%28SVM%29\/';
+    var disqus_identifier = 'https:\/\/cedarbye.github.io\/post\/2016\/2016_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95%28SVM%29\/';
     var disqus_title = '机器学习——支持向量机算法(SVM)';
-    var disqus_url = '\/cedarbye.github.io\/post\/2016\/2016_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95%28SVM%29\/';
+    var disqus_url = 'https:\/\/cedarbye.github.io\/post\/2016\/2016_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95%28SVM%29\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -268,7 +268,7 @@
         </div>
     </main>
     <aside class="author">
-  <img class="profile-image" src="/cedarbye.github.io/img/profile-image.png" alt="cedar" />
+  <img class="profile-image" src="https://cedarbye.github.io/img/profile-image.png" alt="cedar" />
   <p class="name">by 
   <strong>cedar</strong></p>
   <p class="address">Tianjin China</p>
@@ -292,7 +292,7 @@
 
 
 
-<li><a href="/cedarbye.github.io/post/index.xml" class="icon-rss" target="_blank" title="RSS"></a></li>
+<li><a href="https://cedarbye.github.io/post/index.xml" class="icon-rss" target="_blank" title="RSS"></a></li>
 
   </ul>
   <br><br>
@@ -302,15 +302,15 @@
 
 <footer class="main-footer">
   <div class="container clearfix">
-        <a class="icon-rss" href="/cedarbye.github.io/post/index.xml" title="RSS"></a>
+        <a class="icon-rss" href="https://cedarbye.github.io/post/index.xml" title="RSS"></a>
         <p>&copy; 2016 &middot; Powered by <a href="http://gohugo.io">Hugo</a>.</p>
   </div>
 </footer>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<script>window.jQuery || document.write('<script src="\/cedarbye.github.io\/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
-<script src="/cedarbye.github.io/js/plugins.js"></script>
+<script>window.jQuery || document.write('<script src="https:\/\/cedarbye.github.io\/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+<script src="https://cedarbye.github.io/js/plugins.js"></script>
 
 </body>
 </html>
