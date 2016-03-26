@@ -163,7 +163,7 @@ DD \E \F （单字词词频，E:5，F:5）&lt;/p&gt;
 &lt;p&gt;大家在看了上面的博客，理解了什么是mmseg算法再往下看&lt;br /&gt;
 具体Python代码如下：&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;cedarbye.github.io/code/20160324mmseg.py&#34;&gt;mmseg.py&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;cedarbye.github.io/code/20160324/mmseg.py&#34;&gt;mmseg.py&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;此代码参照google code的一个代码，经过了我自己的修改和自己去其的理解&lt;br /&gt;
 代码结构说明：&lt;/p&gt;
@@ -178,7 +178,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 
 &lt;p&gt;下面是测试代码&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;cedarbye.github.io/code/20160324mmseg_test.py&#34;&gt;mmseg_test.py&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;cedarbye.github.io/code/20160324/mmseg_test.py&#34;&gt;mmseg_test.py&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;转载自&lt;a href=&#34;http://www.aiuxian.com/article/p-1976364.html&#34;&gt;爱悠闲&lt;/a&gt;&lt;/p&gt;
 </description>
