@@ -1,0 +1,619 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>cedar&#39;s blog</title>
+        <meta name="author">
+        <meta name="description" content="The awesome blog of cedar.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo 0.15" />
+        <link href="https://cedarbye.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="cedar&#39;s blog" />
+        <link href="https://cedarbye.github.io/post/index.xml" rel="feed" type="application/rss+xml" title="cedar&#39;s blog" />
+        
+        <link rel="stylesheet" href="https://cedarbye.github.io/css/styles.css">
+        <link rel="icon" href="https://cedarbye.github.io/favicon.ico">
+        <link rel="apple-touch-icon" href="https://cedarbye.github.io/apple-touch-icon.png" />
+        <script src="https://cedarbye.github.io/js/vendor/modernizr-2.8.0.min.js"></script>
+        <link rel="stylesheet" href="https://cedarbye.github.io/css/highlightjs/monokai.css">
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+        
+        <style>
+        .site-header h2 .logo {
+        background: url(https://cedarbye.github.io/img/desk.jpg) no-repeat 0 0;
+        }
+        @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
+          .site-header h2 .logo {
+            background-image: url(https://cedarbye.github.io/img/desk.jpg);
+        }}
+       .site-header {
+         background: #2a373d url(https://cedarbye.github.io/img/desk.jpg) no-repeat center center;
+         z-index: -1;
+        }
+        </style>
+    </head>
+    <body>
+        
+        <header class="site-header">
+          <div class="transparent-layer">
+              <h2>Notebook of Thinking</h2>
+          </div>
+        </header>
+
+
+<div class="container clearfix">
+    <main role="main" class="content">
+        <article class="post">
+            <a class="btn home" href="https://cedarbye.github.io/" title="Back to home">&laquo; Back to home</a>
+            
+<h1><a href="https://cedarbye.github.io/post/2015/2015_4_21PythonChallenge%E6%94%BB%E7%95%A5/" title="PythonChallenge攻略">PythonChallenge攻略</a></h1>
+
+<footer class="post-info">Posted on <span class="post-meta"><time datetime="2015.04.21">2015.04.21</time>
+
+    &middot; Tagged in
+        
+        <a href="https://cedarbye.github.io/tags/python">python</a>
+        
+    
+
+</span>
+</footer>
+
+            
+
+<p>最近经人推荐一游戏（暂且算游戏吧，娱乐性比较强），玩起来还是很有兴趣的，玩起来根本停不下来，顺便把这一天的成功分享一下</p>
+
+<h3 id="第0关:b7a8b56b134c1c1203d511e1b6a360ca">第0关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/def/0.html">地址</a></p>
+
+<p>图片上显示2 38，第一次还认为是238，后来一想这和python有什么关系？果断想到2^38，下面有提示</p>
+
+<blockquote>
+<p><em>Hint: try to change the URL address.</em></p>
+</blockquote>
+
+<p>所以很明显计算下2^38，替换地址栏的0就可以了</p>
+
+<pre><code>&gt;&gt;2**38
+</code></pre>
+
+<h3 id="第1关:b7a8b56b134c1c1203d511e1b6a360ca">第1关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/def/map.html">地址</a></p>
+
+<p>第一眼看到图片时我竟想到了我们那坑爹的密码学课程，这不就是凯撒密码啊！下面还有一串提示</p>
+
+<blockquote>
+<p><em>g fmnc wms bgblr rpylqjyrc gr zw fylb. rfyrq ufyr amknsrcpq ypc dmp. bmgle gr gl zw fylb gq glcddgagclr ylb rfyr&rsquo;q ufw rfgq rcvr gq qm jmle. sqgle qrpgle.kyicrpylq() gq pcamkkclbcb. lmu ynnjw ml rfc spj.</em></p>
+</blockquote>
+
+<p>好吧，根据图片来看应该是右移两位，对应地址栏中的map，所得的应该是 <em>ocr</em> ，替换OK。</p>
+
+<pre><code>import string
+str = &quot;g fmnc wms bgblr rpylqjyrc gr zw fylb. rfyrq ufyr amknsrcpq ypc dmp. bmgle gr gl zw fylb gq glcddgagclr ylb rfyr'q ufw rfgq rcvr gq qm jmle. sqgle qrpgle.kyicrpylq() gq pcamkkclbcb. lmu ynnjw ml rfc spj.&quot;
+transfun = string.maketrans('abcdefghijklmnopqrstuvwxyz','cdefghijklmnopqrstuvwxyzab')
+print str.translate(transfun)
+print 'map'.translate(transfun)
+</code></pre>
+
+<h3 id="第2关:b7a8b56b134c1c1203d511e1b6a360ca">第2关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/def/map.html">地址</a></p>
+
+<p>这一关的图片是一本模糊的书，下面有提示：</p>
+
+<blockquote>
+<p><em>recognize the characters. maybe they are in the book,
+but MAYBE they are in the page source.</em></p>
+</blockquote>
+
+<p>好吧，那我们就看一下源码，F12进入
+源文件发现有这么一行</p>
+
+<blockquote>
+<p><em>find rare characters in the mess below:</em></p>
+</blockquote>
+
+<p>原来是要找到最少的字符，但下来跟随的是一波乱码，再仔细看一下，应该是ascii码，那这里我们就来处理一下</p>
+
+<pre><code class="language-python">import re
+f=open('2.tmp','r')
+str=f.read()
+res=re.findall(r&quot;[a-zA-Z]&quot;, str)
+print ''.join(res)
+</code></pre>
+
+<pre><code class="language-python">import string
+print ''.join([i for i in open('2.tmp').read() if i in string.ascii_letters])
+
+</code></pre>
+
+<p>然后我们得到了 <em>equality</em> ，输入地址栏OK</p>
+
+<h3 id="第3关:b7a8b56b134c1c1203d511e1b6a360ca">第3关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/def/equality.html">地址</a></p>
+
+<p>这里7只蜡烛，提示：</p>
+
+<blockquote>
+<p><em>One small letter, surrounded by EXACTLY three big bodyguards on each of its sides.</em></p>
+</blockquote>
+
+<p>那这里应该是AAAaAAA的结构了，我们再次从源文件中发现了一段字符，应该就是从这里找了，让我们来试一下</p>
+
+<pre><code class="language-python">import urllib2,re
+f=urllib2.urlopen('http://www.pythonchallenge.com/pc/def/equality.html')
+str= f.read()
+res=re.findall(r&quot;[^A-Z][A-Z]{3}([a-z])[A-Z]{3}[^A-Z]&quot;, str)
+print ''.join(res).lower()
+</code></pre>
+
+<p>这里我们得到了 <em>linkedlist</em> 这个词，替换Url，下一关。</p>
+
+<h3 id="第4关:b7a8b56b134c1c1203d511e1b6a360ca">第4关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/def/linkedlist.html">地址</a></p>
+
+<p>一进来竟然提示个这个</p>
+
+<blockquote>
+<p><em>linkedlist.php</em></p>
+</blockquote>
+
+<p>这意思是要有处理了？那我们就换地址来到<a href="http://www.pythonchallenge.com/pc/def/linkedlist.php">地址</a>，发现图片是有onclick()事件的，点击后发现跳转到了</p>
+
+<blockquote>
+<p><em><a href="http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=12345">http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=12345</a></em></p>
+</blockquote>
+
+<p>然后显示</p>
+
+<blockquote>
+<p><em>and the next nothing is 44827</em></p>
+</blockquote>
+
+<p>那我们替换地址后五位，得到下一个<a href="http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=44827">地址</a>
+显示</p>
+
+<blockquote>
+<p><em>and the next nothing is 45439</em></p>
+</blockquote>
+
+<p>这下子看来是要一直跳转下去了，用python来处理下</p>
+
+<pre><code class="language-python">import re,urllib
+value=33110
+pattern=r&quot;(?&lt;=and the next nothing is )\d+&quot;
+response=urllib.urlopen(&quot;http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=%s&quot;%value)
+while True:
+    page=response.read()
+    matche=re.search(pattern, page)
+    if not matche:
+        break;
+    else:
+        print page
+</code></pre>
+
+<p>原以为这就可以了，后来发现竟然出现了这</p>
+
+<blockquote>
+<p><em>Yes. Divide by two and keep going.</em></p>
+</blockquote>
+
+<p>那我们这里就修改下代码就可以了</p>
+
+<pre><code class="language-python">import re,urllib
+value=33110
+pattern=r&quot;(?&lt;=and the next nothing is )\d+&quot;
+#findNothing = re.compile(r'(?&lt;=and the next nothing is )\d+').search  
+while True:
+    response=urllib.urlopen(&quot;http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=%s&quot;%value)
+    
+    page=response.read()
+    matche=re.search(pattern, page)
+    #matche=findNothing(page)
+    if not matche:
+        break;
+    else:
+        print page
+        value=matche.group(0)
+print int(value)/2
+</code></pre>
+
+<p>最终出现了不一样的</p>
+
+<blockquote>
+<p><em>peak</em></p>
+</blockquote>
+
+<p>用 <em>peak</em> 替换Url，下一关</p>
+
+<h3 id="第5关:b7a8b56b134c1c1203d511e1b6a360ca">第5关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/def/peak.html">地址</a></p>
+
+<p>这个很简洁，提示：</p>
+
+<blockquote>
+<p><em>pronounce it</em></p>
+</blockquote>
+
+<p>看起来好像毫无头绪，但是在源代码里发现</p>
+
+<blockquote>
+<p><em>peakhell src=&ldquo;banner.p&rdquo;
+peak hell sounds familiar ?</em></p>
+</blockquote>
+
+<p>这里我们下载<a href="http://www.pythonchallenge.com/pc/def/banner.p">banner.p</a>，根据提示，&rdquo;peak hell&rdquo; 发音类似 &ldquo;pickle&rdquo;，用pickle 处理banner.p。</p>
+
+<pre><code class="language-python">import pickle
+object = pickle.load(open(&quot;banner.p&quot;))
+for item in object:
+    print &quot;&quot;.join(map(lambda p: p[0]*p[1], item))
+</code></pre>
+
+<p>这里我们得到一个由#组成的字母 <em>channel</em> ，替换Url，下一关</p>
+
+<h3 id="第6关:b7a8b56b134c1c1203d511e1b6a360ca">第6关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/def/channel.html">地址</a></p>
+
+<p>图片是一个拉链(zip)，在源文件中有这样一段</p>
+
+<blockquote>
+<p><em>The following has nothing to do with the riddle itself. I just
+thought it would be the right point to offer you to donate to the
+Python Challenge project. Any amount will be greatly appreciated.
+-thesamet</em></p>
+</blockquote>
+
+<p>那我们把网页后缀改成.zip，发现可以下载，这下我们得到一个channel.zip，解压得倒一个readme.txt和好多由数字组成的文件，打开readme.txt:</p>
+
+<blockquote>
+<p><em>welcome to my zipped list.
+hint1: start from 90052
+hint2: answer is inside the zip</em></p>
+</blockquote>
+
+<p>好吧，从90052.txt 开始处理。直到出现：Collect the comments.
+看来得用zipfile把comments收集下，上述过程再重复一遍（还是从90052.txt）开始，记录每次遇到的文件的comment</p>
+
+<pre><code class="language-python">import zipfile,re
+z=zipfile.ZipFile('channel.zip','r')
+value=90052
+findNothing = re.compile(r'(?&lt;=Next nothing is )\d+').search
+comments=[]
+while True:
+    content=z.read('%s.txt'%value)
+    comments.append(z.getinfo('%s.txt'%value).comment)
+    match=findNothing(content)
+#   match=apply(findNothing,(content,))
+    if match:
+        value=match.group(0)
+    else:
+        break
+    print content
+print z.read('%s.txt'%value)
+print ''.join(comments)
+
+</code></pre>
+
+<p>打印记录的comments，形如&rdquo;hockey&rdquo;。
+打开<a href="http://www.pythonchallenge.com/pc/def/hockey.html：">http://www.pythonchallenge.com/pc/def/hockey.html：</a></p>
+
+<blockquote>
+<p><em>it&rsquo;s in the air. look at the letters.</em></p>
+</blockquote>
+
+<p>表示还没完，要从letters中找答案。组成&rdquo;hockey&rdquo;形状的单词分别是O、X、Y、G、E、N，即&rdquo; <em>oxygen</em> &ldquo;。替换地址，下一关。</p>
+
+<h3 id="第7关:b7a8b56b134c1c1203d511e1b6a360ca">第7关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/def/map.html">地址</a></p>
+
+<p>这张图片是个长条的，打开时还以为没加载完，刷新了好几次。
+我们发现这张图片中间有个灰度条，没有其他提示，必然要从图片下手了。用到PIL。
+该图像模式是RGBA。每个像素是个四元组，前3个分量分别代表红&reg;、绿(G)、蓝(B)，对于灰度图像，R=B=G。
+这样，我们可以找到这段灰度条。将其数值按照ASCII码映射为字符（chr 函数）。</p>
+
+<pre><code class="language-python">import Image
+im = Image.open(&quot;oxygen.png&quot;)
+print im.format, im.mode, im.size
+w,h=im.size
+print im.getpixel((0,h//2))
+print ''.join([chr(im.getpixel((i,h//2))[0]) for i in range(0,w,7)])
+print ''.join(map(chr,[105, 110, 116, 101, 103, 114, 105, 116, 121]))
+</code></pre>
+
+<p>得到 <em>integrity</em> ，替换进入下一关</p>
+
+<h3 id="第8关:b7a8b56b134c1c1203d511e1b6a360ca">第8关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/def/map.html">地址</a></p>
+
+<p>这是一只苍蝇，我们在源码中发现重定位地址</p>
+
+<blockquote>
+<p><em>href=&ldquo;../return/good.html&rdquo;</em></p>
+</blockquote>
+
+<p>跳转后发现需要登录，那用户名和密码在哪里呢？又在源码中发现</p>
+
+<blockquote>
+<p><em>un: &lsquo;BZh91AY&amp;SYA\xaf\x82\r\x00\x00\x01\x01\x80\x02\xc0\x02\x00\x00!\x9ah3M\x07&lt;]\xc9\x14\xe1BA\x06\xbe\x084&rsquo;
+pw: &lsquo;BZh91AY&amp;SY\x94\$|\x0e\x00\x00\x00\x81\x00\x03$\x00!\x9ah3M\x13&lt;]\xc9\x14\xe1BBP\x91\xf08&rsquo;</em></p>
+</blockquote>
+
+<p>看来这就应该是需要的用户名和密码了，发现开头是BZh，所以我们用bz2来解码</p>
+
+<pre><code class="language-python">import bz2
+print &quot;username:%s&quot;%bz2.decompress(&quot;BZh91AY&amp;SYA\xaf\x82\r\x00\x00\x01\x01\x80\x02\xc0\x02\x00 \x00!\x9ah3M\x07&lt;]\xc9\x14\xe1BA\x06\xbe\x084&quot;)
+print &quot;password:%s&quot;%bz2.decompress(&quot;BZh91AY&amp;SY\x94$|\x0e\x00\x00\x00\x81\x00\x03$ \x00!\x9ah3M\x13&lt;]\xc9\x14\xe1BBP\x91\xf08&quot;)
+a=&quot;BZh91AY&amp;SY\x94$|\x0e\x00\x00\x00\x81\x00\x03$ \x00!\x9ah3M\x13&lt;]\xc9\x14\xe1BBP\x91\xf08&quot;
+print a.decode('bz2')
+</code></pre>
+
+<p>最后得到</p>
+
+<blockquote>
+<p>un: <em>huge</em><br />
+pw: <em>file</em></p>
+</blockquote>
+
+<p>输入进入下一关</p>
+
+<h3 id="第9关:b7a8b56b134c1c1203d511e1b6a360ca">第9关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/return/good.html">地址</a></p>
+
+<p>这张图片上有许多点，源代码中提示：</p>
+
+<blockquote>
+<p><em>first+second=?</em></p>
+
+<p><em>first:</em>
+<em>146,399,163,403,170,393,169,391,166,386,170,381,170,371,170,355,169,346,167,335,170,329&hellip;&hellip;</em></p>
+
+<p><em>second:</em>
+<em>156,141,165,135,169,131,176,130,187,134,191,140,191,146,186,150,179,155,175,157,168,157&hellip;&hellip;</em></p>
+</blockquote>
+
+<p>这就应该是点的坐标了，我们把它们连起来</p>
+
+<pre><code class="language-python">import Image
+from functools import partial
+#省略后面
+first=[146,399,163,403,170,393,169,391,166,386,170,381,170,371,170,355,169,346,167,335,170,329,170,320,170......]
+second=[156,141,165,135,169,131,176,130,187,134,191,140,191,146,186,150,179,155,175,157,168,157,163,157,159......]
+im=Image.open(&quot;good.jpg&quot;, &quot;r&quot;)
+image=Image.new(im.mode, im.size)
+color=(100,255,100)
+#points=[(x,y) for x in first for y in second]
+points=[(first[x],first[x+1]) for x in range(0,len(first),2)]
+points.extend([(second[x],second[x+1]) for x in range(0,len(second),2)])
+#points.sort()
+#print points
+image.putpixel2=partial(image.putpixel,value=color)
+for point in points:
+    image.putpixel2(point)
+image.save(&quot;good2.jpg&quot;)
+</code></pre>
+
+<p>发现first是一头牛，而second是一个十字，尝试一下cow，提示</p>
+
+<blockquote>
+<p><em>hmm. it&rsquo;s a male.</em></p>
+</blockquote>
+
+<p>好吧，那就试下 <em>bull</em> ，这就OK了</p>
+
+<h3 id="第10关:b7a8b56b134c1c1203d511e1b6a360ca">第10关</h3>
+
+<p><a href="http://www.pythonchallenge.com/pc/return/bull.html">地址</a></p>
+
+<p>这就应该是刚才画得那头牛了，图片下提示</p>
+
+<blockquote>
+<p><em>len(a[30]) = ?</em></p>
+</blockquote>
+
+<p>而我们点击牛顿图片会出现</p>
+
+<blockquote>
+<p><em>a=[1,11,21,1211,111221,</em></p>
+</blockquote>
+
+<p>很明显是让我们解出第31个数字。好吧这规律题实在不是强项，直接上代码：</p>
+
+<pre><code class="language-python">import re
+result='1'
+pattern=re.compile(r'((?P&lt;w&gt;\d)(?P=w)*)')
+for i in range(30):
+    a=map(lambda x:'%s%s'%(len(x[0]),x[1]),pattern.findall(result))
+    result=''.join(a)
+print len(result)
+
+</code></pre>
+
+<p>解出 <em>5808</em> ,替换进入下一页。</p>
+
+<h3 id="第11关:b7a8b56b134c1c1203d511e1b6a360ca">第11关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第12关:b7a8b56b134c1c1203d511e1b6a360ca">第12关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第13关:b7a8b56b134c1c1203d511e1b6a360ca">第13关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第14关:b7a8b56b134c1c1203d511e1b6a360ca">第14关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第15关:b7a8b56b134c1c1203d511e1b6a360ca">第15关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第16关:b7a8b56b134c1c1203d511e1b6a360ca">第16关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第17关:b7a8b56b134c1c1203d511e1b6a360ca">第17关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第18关:b7a8b56b134c1c1203d511e1b6a360ca">第18关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第19关:b7a8b56b134c1c1203d511e1b6a360ca">第19关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第20关:b7a8b56b134c1c1203d511e1b6a360ca">第20关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第21关:b7a8b56b134c1c1203d511e1b6a360ca">第21关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第22关:b7a8b56b134c1c1203d511e1b6a360ca">第22关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第23关:b7a8b56b134c1c1203d511e1b6a360ca">第23关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第24关:b7a8b56b134c1c1203d511e1b6a360ca">第24关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第25关:b7a8b56b134c1c1203d511e1b6a360ca">第25关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第26关:b7a8b56b134c1c1203d511e1b6a360ca">第26关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第27关:b7a8b56b134c1c1203d511e1b6a360ca">第27关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第28关:b7a8b56b134c1c1203d511e1b6a360ca">第28关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第29关:b7a8b56b134c1c1203d511e1b6a360ca">第29关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第30关:b7a8b56b134c1c1203d511e1b6a360ca">第30关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第31关:b7a8b56b134c1c1203d511e1b6a360ca">第31关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第32关:b7a8b56b134c1c1203d511e1b6a360ca">第32关</h3>
+
+<p>[地址]()</p>
+
+<h3 id="第33关:b7a8b56b134c1c1203d511e1b6a360ca">第33关</h3>
+
+<p>[地址]()</p>
+
+            <ul class="share-buttons">
+    <li>Share this article:</li>
+    <li>
+        <a class="icon-facebook-squared" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_4_21PythonChallenge%25E6%2594%25BB%25E7%2595%25A5%2f" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook"></a>
+    </li>
+    <li>
+        <a class="icon-twitter" href="https://twitter.com/share?text=PythonChallenge%e6%94%bb%e7%95%a5&amp;url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_4_21PythonChallenge%25E6%2594%25BB%25E7%2595%25A5%2f" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Tweet this article"></a>
+    </li>
+    <li>
+        <a class="icon-gplus" href="https://plus.google.com/share?url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_4_21PythonChallenge%25E6%2594%25BB%25E7%2595%25A5%2f" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google&#43;"></a>
+    </li>
+    <li>
+        <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_4_21PythonChallenge%25E6%2594%25BB%25E7%2595%25A5%2f&title=PythonChallenge%e6%94%bb%e7%95%a5" onclick="window.open(this.href, 'linkedin-share', 'width=600,height=494');return false;" title="Share on Linkedin"></a>
+    </li>
+</ul>
+
+        </article>
+        <div class="comments">
+            <h3>Comments</h3>
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'cedarbye';
+    var disqus_identifier = 'https:\/\/cedarbye.github.io\/post\/2015\/2015_4_21PythonChallenge%E6%94%BB%E7%95%A5\/';
+    var disqus_title = 'PythonChallenge攻略';
+    var disqus_url = 'https:\/\/cedarbye.github.io\/post\/2015\/2015_4_21PythonChallenge%E6%94%BB%E7%95%A5\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </main>
+    <aside class="author">
+  <img class="profile-image" src="https://cedarbye.github.io/img/profile-image.png" alt="cedar" />
+  <p class="name">by 
+  <strong>cedar</strong></p>
+  <p class="address">Tianjin China</p>
+  <p class="link"></p>
+  <ul class="social">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//github.com/cedarbye" class="icon-github" target="_blank" title="Github"></a></li>
+
+
+
+
+<li><a href="https://cedarbye.github.io/post/index.xml" class="icon-rss" target="_blank" title="RSS"></a></li>
+
+  </ul>
+  <br><br>
+</aside>
+
+</div>
+
+<footer class="main-footer">
+  <div class="container clearfix">
+        <a class="icon-rss" href="https://cedarbye.github.io/post/index.xml" title="RSS"></a>
+        <p>&copy; 2016 &middot; Powered by <a href="http://gohugo.io">Hugo</a>.</p>
+  </div>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>window.jQuery || document.write('<script src="https:\/\/cedarbye.github.io\/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+<script src="https://cedarbye.github.io/js/plugins.js"></script>
+
+</body>
+</html>
+
