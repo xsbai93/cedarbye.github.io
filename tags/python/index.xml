@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on cedar&#39;s blog</title>
-    <link>https://cedarbye.github.io/tags/python/</link>
+    <link>cedarbye.github.io/tags/python/</link>
     <description>Recent content in Python on cedar&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Tue, 21 Apr 2015 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://cedarbye.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="cedarbye.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>PythonChallenge攻略</title>
-      <link>https://cedarbye.github.io/post/2015/2015_04_21PythonChallenge%E6%94%BB%E7%95%A5/</link>
+      <link>/cedarbye.github.io/post/2015/2015_04_21PythonChallenge%E6%94%BB%E7%95%A5/</link>
       <pubDate>Tue, 21 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://cedarbye.github.io/post/2015/2015_04_21PythonChallenge%E6%94%BB%E7%95%A5/</guid>
+      <guid>/cedarbye.github.io/post/2015/2015_04_21PythonChallenge%E6%94%BB%E7%95%A5/</guid>
       <description>
 
 &lt;p&gt;最近经人推荐一游戏（暂且算游戏吧，娱乐性比较强），玩起来还是很有兴趣的，玩起来根本停不下来，顺便把这一天的成功分享一下&lt;/p&gt;
@@ -492,10 +492,10 @@ print len(result)
     
     <item>
       <title>机器学习——DBSCAN算法</title>
-      <link>https://cedarbye.github.io/post/2015/2015_04_17DBSCAN%E7%AE%97%E6%B3%95/</link>
+      <link>/cedarbye.github.io/post/2015/2015_04_17DBSCAN%E7%AE%97%E6%B3%95/</link>
       <pubDate>Fri, 17 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://cedarbye.github.io/post/2015/2015_04_17DBSCAN%E7%AE%97%E6%B3%95/</guid>
+      <guid>/cedarbye.github.io/post/2015/2015_04_17DBSCAN%E7%AE%97%E6%B3%95/</guid>
       <description>
 
 &lt;h2 id=&#34;1-什么是dbscan算法:cfad866b17f17627f7a4c667faafc845&#34;&gt;1. 什么是DBSCAN算法&lt;/h2&gt;
