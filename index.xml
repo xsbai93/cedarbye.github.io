@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cedar&#39;s blog</title>
-    <link>cedarbye.github.io/</link>
+    <link>https://cedarbye.github.io/</link>
     <description>Recent content on cedar&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Thu, 24 Mar 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="cedarbye.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://cedarbye.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>分词算法——mmseg</title>
-      <link>/cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</link>
+      <link>https://cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</link>
       <pubDate>Thu, 24 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>/cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</guid>
+      <guid>https://cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</guid>
       <description>
 
 &lt;p&gt;最大匹配算法的准确度似乎不高，啥正向最大匹配啊，说白了，就是拿着你的字典然后对文本进行暴力切割，这种算法切割出来的错误率肯定超级高，算法原理满大街都是，就不说了，时间复杂度倒挺低O(n)。&lt;/p&gt;
@@ -163,7 +163,7 @@ DD \E \F （单字词词频，E:5，F:5）&lt;/p&gt;
 &lt;p&gt;大家在看了上面的博客，理解了什么是mmseg算法再往下看&lt;br /&gt;
 具体Python代码如下：&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;cedarbye.github.io/code/20160324/mmseg.py&#34;&gt;mmseg.py&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://cedarbye.github.io/code/20160324/mmseg.py&#34;&gt;mmseg.py&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;此代码参照google code的一个代码，经过了我自己的修改和自己去其的理解&lt;br /&gt;
 代码结构说明：&lt;/p&gt;
@@ -178,7 +178,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 
 &lt;p&gt;下面是测试代码&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;cedarbye.github.io/code/20160324/mmseg_test.py&#34;&gt;mmseg_test.py&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://cedarbye.github.io/code/20160324/mmseg_test.py&#34;&gt;mmseg_test.py&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;转载自&lt;a href=&#34;http://www.aiuxian.com/article/p-1976364.html&#34;&gt;爱悠闲&lt;/a&gt;&lt;/p&gt;
 </description>
@@ -186,10 +186,10 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
     
     <item>
       <title>PythonChallenge攻略</title>
-      <link>/cedarbye.github.io/post/2015/2015_04_21PythonChallenge%E6%94%BB%E7%95%A5/</link>
+      <link>https://cedarbye.github.io/post/2015/2015_04_21PythonChallenge%E6%94%BB%E7%95%A5/</link>
       <pubDate>Tue, 21 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>/cedarbye.github.io/post/2015/2015_04_21PythonChallenge%E6%94%BB%E7%95%A5/</guid>
+      <guid>https://cedarbye.github.io/post/2015/2015_04_21PythonChallenge%E6%94%BB%E7%95%A5/</guid>
       <description>
 
 &lt;p&gt;最近经人推荐一游戏（暂且算游戏吧，娱乐性比较强），玩起来还是很有兴趣的，玩起来根本停不下来，顺便把这一天的成功分享一下&lt;/p&gt;
@@ -667,10 +667,10 @@ print len(result)
     
     <item>
       <title>机器学习——BIRCH算法</title>
-      <link>/cedarbye.github.io/post/2015/2015_04_15BIRCH%E7%AE%97%E6%B3%95/</link>
+      <link>https://cedarbye.github.io/post/2015/2015_04_15BIRCH%E7%AE%97%E6%B3%95/</link>
       <pubDate>Fri, 17 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>/cedarbye.github.io/post/2015/2015_04_15BIRCH%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://cedarbye.github.io/post/2015/2015_04_15BIRCH%E7%AE%97%E6%B3%95/</guid>
       <description>
 
 &lt;h2 id=&#34;1-什么是birch算法:f94b0b3b1309c93b1ba6037086c08efc&#34;&gt;1. 什么是BIRCH算法？&lt;/h2&gt;
@@ -738,10 +738,10 @@ print len(result)
     
     <item>
       <title>机器学习——DBSCAN算法</title>
-      <link>/cedarbye.github.io/post/2015/2015_04_17DBSCAN%E7%AE%97%E6%B3%95/</link>
+      <link>https://cedarbye.github.io/post/2015/2015_04_17DBSCAN%E7%AE%97%E6%B3%95/</link>
       <pubDate>Fri, 17 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>/cedarbye.github.io/post/2015/2015_04_17DBSCAN%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://cedarbye.github.io/post/2015/2015_04_17DBSCAN%E7%AE%97%E6%B3%95/</guid>
       <description>
 
 &lt;h2 id=&#34;1-什么是dbscan算法:cfad866b17f17627f7a4c667faafc845&#34;&gt;1. 什么是DBSCAN算法&lt;/h2&gt;
@@ -804,10 +804,10 @@ print len(result)
     
     <item>
       <title>机器学习———OPTICS算法</title>
-      <link>/cedarbye.github.io/post/2015/2015_04_12OPTICS%E7%AE%97%E6%B3%95/</link>
+      <link>https://cedarbye.github.io/post/2015/2015_04_12OPTICS%E7%AE%97%E6%B3%95/</link>
       <pubDate>Sun, 12 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>/cedarbye.github.io/post/2015/2015_04_12OPTICS%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://cedarbye.github.io/post/2015/2015_04_12OPTICS%E7%AE%97%E6%B3%95/</guid>
       <description>
 
 &lt;h2 id=&#34;1-什么是optics算法:2f3b26bd381ea7b4d97c66208712e19d&#34;&gt;1. 什么是OPTICS算法&lt;/h2&gt;
@@ -870,10 +870,10 @@ print len(result)
     
     <item>
       <title>机器学习——K-means算法</title>
-      <link>/cedarbye.github.io/post/2015/2015_04_05K-means%E7%AE%97%E6%B3%95/</link>
+      <link>https://cedarbye.github.io/post/2015/2015_04_05K-means%E7%AE%97%E6%B3%95/</link>
       <pubDate>Sun, 05 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>/cedarbye.github.io/post/2015/2015_04_05K-means%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://cedarbye.github.io/post/2015/2015_04_05K-means%E7%AE%97%E6%B3%95/</guid>
       <description>
 
 &lt;h2 id=&#34;1-什么是k-means算法:7f423d20730d9400479993134038f0af&#34;&gt;1. 什么是K-means算法&lt;/h2&gt;
@@ -921,10 +921,10 @@ repeat&lt;/p&gt;
     
     <item>
       <title>机器学习——支持向量机(SVM)算法</title>
-      <link>/cedarbye.github.io/post/2015/2015_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%28SVM%29%E7%AE%97%E6%B3%95/</link>
+      <link>https://cedarbye.github.io/post/2015/2015_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%28SVM%29%E7%AE%97%E6%B3%95/</link>
       <pubDate>Sat, 21 Mar 2015 00:00:00 +0000</pubDate>
       
-      <guid>/cedarbye.github.io/post/2015/2015_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%28SVM%29%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://cedarbye.github.io/post/2015/2015_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%28SVM%29%E7%AE%97%E6%B3%95/</guid>
       <description>
 
 &lt;p&gt;关于SVM的论文、书籍都非常的多，引用强哥的话“SVM是让应用数学家真正得到应用的一种算法”。SVM对于大部分的普通人来说，要完全理解其中的数学是非常困难的，所以要让这些普通人理解，得要把里面的数学知识用简单的语言去讲解才行。而且想明白了这些数学，对学习其他的内容也是大有裨益的。我就是属于绝大多数的普通人，为了看明白SVM，看了不少的资料，这里把我的心得分享分享。&lt;/p&gt;
@@ -935,7 +935,7 @@ repeat&lt;/p&gt;
 
 &lt;p&gt;首先给出一个非常非常简单的分类问题（线性可分），我们要用一条直线，将下图中黑色的点和白色的点分开，很显然，图上的这条直线就是我们要求的直线之一（可以有无数条这样的直线）。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032101.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032101.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;假如说，我们令黑色的点 = -1， 白色的点 = +1，直线f(x) = w.x + b这儿的x、w是向量，其实写成这种形式也是等价的f(x) = w1x1 + w2x2 … + wnxn + b， 当向量x的维度=2的时候，f(x)表示二维空间中的一条直线，当x的维度=3的时候，f(x)表示3维空间中的一个平面，当x的维度=n &amp;gt; 3的时候，表示n维空间中的n-1维超平面。这些都是比较基础的内容，如果不太清楚，可能需要复习一下微积分、线性代数的内容。&lt;/p&gt;
 
@@ -943,31 +943,31 @@ repeat&lt;/p&gt;
 
 &lt;p&gt;但是，我们怎样才能取得一个最优的划分直线f(x)呢？下图的直线表示几条可能的f(x)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032102.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032102.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;一个很直观的感受是，让这条直线到给定样本中最近的点最远，这句话读起来比较拗口，下面给出几个图，来说明一下：&lt;/p&gt;
 
 &lt;p&gt;第一种分法：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032103.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032103.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;第二种分法：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032104.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032104.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这两种分法哪种更好呢？从直观上来说，就是分割的间隙越大越好，把两个类别的点分得越开越好。就像我们平时判断一个人是男还是女，就是很难出现分错的情况，这就是男、女两个类别之间的间隙非常的大导致的，让我们可以更准确的进行分类。在SVM中，称为&lt;strong&gt;Maximum Marginal&lt;/strong&gt;，是SVM的一个理论基础之一。选择使得间隙最大的函数作为分割平面是由很多道理的，比如说从概率的角度上来说，就是使得置信度最小的点置信度最大（听起来很拗口），从实践的角度来说，这样的效果非常好，等等。这里就不展开讲，作为一个结论就ok了，:)&lt;/p&gt;
 
 &lt;p&gt;上图被红色和蓝色的线圈出来的点就是所谓的支持向量(support vector)。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032105.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032105.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;上图就是一个对之前说的类别中的间隙的一个描述。Classifier Boundary就是f(x)，红色和蓝色的线（plus plane与minus plane）就是support vector所在的面，红色、蓝色线之间的间隙就是我们要最大化的分类间的间隙。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032106.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032106.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这里直接给出M的式子：（从高中的解析几何就可以很容易的得到了，也可以参考后面Moore的ppt）&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032107.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032107.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;另外支持向量位于 wx + b = 1 与wx + b = -1的直线上，我们在前面乘上一个该点所属的类别y（还记得吗? y不是+1就是-1），就可以得到支持向量的表达式为：y(wx + b) = 1，这样就可以更简单的将支持向量表示出来了。&lt;/p&gt;
 
@@ -975,13 +975,13 @@ repeat&lt;/p&gt;
 
 &lt;p&gt;在这个小节的最后，给出我们要优化求解的表达式：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032108.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032108.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;||w||的意思是w的二范数，跟上面的M表达式的分母是一个意思，之前得到，M = 2 / ||w||，最大化这个式子等价于最小化||w||, 另外由于||w||是一个单调函数，我们可以对其加入平方，和前面的系数，熟悉的同学应该很容易就看出来了，这个式子是为了方便求导。&lt;/p&gt;
 
 &lt;p&gt;这个式子有还有一些限制条件，完整的写下来，应该是这样的：（&lt;em&gt;原问题&lt;/em&gt; ）&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032109.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032109.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;s.t的意思是subject to，也就是在后面这个限制条件下的意思，这个词在svm的论文里面非常容易见到。这个其实是一个带约束的二次规划(quadratic programming, QP)问题，是一个凸问题，凸问题就是指的不会有局部最优解，可以想象一个漏斗，不管我们开始的时候将一个小球放在漏斗的什么位置，这个小球最终一定可以掉出漏斗，也就是得到全局最优解。s.t.后面的限制条件可以看做是一个凸多面体，我们要做的就是在这个凸多面体中找到最优解。这些问题这里不展开，因为展开的话，一本书也写不完。如果有疑问请看看wikipedia。&lt;/p&gt;
 
@@ -989,21 +989,21 @@ repeat&lt;/p&gt;
 
 &lt;p&gt;这个优化问题可以用&lt;em&gt;拉格朗日乘子法&lt;/em&gt; 去解，使用了&lt;em&gt;KKT条件&lt;/em&gt; 的理论，这里直接作出这个式子的拉格朗日目标函数：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032110.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032110.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;求解这个式子的过程需要&lt;em&gt;拉格朗日对偶性&lt;/em&gt; 的相关知识（另外pluskid也有一篇文章专门讲这个问题），并且有一定的公式推导，如果不感兴趣，可以直接跳到后面用&lt;em&gt;蓝色公式&lt;/em&gt; 表示的结论，该部分推导主要参考自plukids的文章。&lt;/p&gt;
 
 &lt;p&gt;首先让L关于w，b最小化，分别令L关于w，b的偏导数为0，得到关于原问题的一个表达式&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032111.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032111.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;将两式带回L(w,b,a)得到对偶问题的表达式&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032112.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032112.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;新问题加上其限制条件是（&lt;em&gt;对偶问题&lt;/em&gt; ）:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032113.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032113.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这个就是我们需要最终优化的式子。至此，得到了线性可分问题的优化式子。&lt;/p&gt;
 
@@ -1015,27 +1015,27 @@ repeat&lt;/p&gt;
 
 &lt;p&gt;下图就是一个典型的线性不可分的分类图，我们没有办法用一条直线去将其分成两个区域，每个区域只包含一种颜色的点。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032114.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032114.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;要想在这种情况下的分类器，有两种方式，一种是用曲线去将其完全分开，曲线就是一种非线性的情况，跟之后将谈到的核函数有一定的关系：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032115.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032115.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;另外一种还是用直线，不过不用去保证可分性，就是包容那些分错的情况，不过我们得加入惩罚函数，使得点分错的情况越合理越好。其实在很多时候，不是在训练的时候分类函数越完美越好，因为训练函数中有些数据本来就是噪声，可能就是在人工加上分类标签的时候加错了，如果我们在训练（学习）的时候把这些错误的点学习到了，那么模型在下次碰到这些错误情况的时候就难免出错了（假如老师给你讲课的时候，某个知识点讲错了，你还信以为真了，那么在考试的时候就难免出错）。这种学习的时候学到了“噪声”的过程就是一个过拟合（over-fitting），这在机器学习中是一个大忌，我们宁愿少学一些内容，也坚决杜绝多学一些错误的知识。还是回到主题，用直线怎么去分割线性不可分的点：&lt;/p&gt;
 
 &lt;p&gt;我们可以为分错的点加上一点惩罚，对一个分错的点的惩罚函数就是这个点到其正确位置的距离：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032116.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032116.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;在上图中，蓝色、红色的直线分别为支持向量所在的边界，绿色的线为决策函数，那些紫色的线表示分错的点到其相应的决策面的距离，这样我们可以在原函数上面加上一个惩罚函数，并且带上其限制条件为：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032117.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032117.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;公式中蓝色的部分为在线性可分问题的基础上加上的惩罚函数部分，当xi在正确一边的时候，ε=0，R为全部的点的数目，C是一个由用户去指定的系数，表示对分错的点加入多少的惩罚，当C很大的时候，分错的点就会更少，但是过拟合的情况可能会比较严重，当C很小的时候，分错的点可能会很多，不过可能由此得到的模型也会不太正确，所以如何选择C是有很多学问的，不过在大部分情况下就是通过经验尝试得到的。&lt;/p&gt;
 
 &lt;p&gt;接下来就是同样的，求解一个拉格朗日对偶问题，得到一个原问题的对偶问题的表达式：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032118.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032118.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;蓝色的部分是与线性可分的对偶问题表达式的不同之处。在线性不可分情况下得到的对偶问题，不同的地方就是α的范围从[0, +∞)，变为了[0, C]，增加的惩罚ε没有为对偶问题增加什么复杂度。&lt;/p&gt;
 
@@ -1047,29 +1047,29 @@ repeat&lt;/p&gt;
 
 &lt;p&gt;下图是一个典型的线性不可分的情况&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032119.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032119.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;但是当我们把这两个类似于椭圆形的点映射到一个高维空间后，映射函数为：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032120.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032120.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;用这个函数可以将上图的平面中的点映射到一个三维空间（z1,z2,z3)，并且对映射后的坐标加以旋转之后就可以得到一个线性可分的点集了。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032121.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032121.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;用另外一个哲学例子来说：世界上本来没有两个完全一样的物体，对于所有的两个物体，我们可以通过增加维度来让他们最终有所区别，比如说两本书，从(颜色，内容)两个维度来说，可能是一样的，我们可以加上 作者 这个维度，是在不行我们还可以加入 页码，可以加入 拥有者，可以加入 购买地点，可以加入 笔记内容等等。当维度增加到无限维的时候，一定可以让任意的两个物体可分了。&lt;/p&gt;
 
 &lt;p&gt;回忆刚刚得到的对偶问题表达式：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032122.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032122.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;我们可以将红色这个部分进行改造，令：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032123.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032123.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;这个式子所做的事情就是将线性的空间映射到高维的空间,k(x, xj)有很多种，下面是比较典型的两种：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;cedarbye.github.io/img/2016032124.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cedarbye.github.io/img/2016032124.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;上面这个核称为多项式核，下面这个核称为高斯核，高斯核甚至是将原始空间映射为无穷维空间，另外核函数有一些比较好的性质，比如说不会比线性条件下增加多少额外的计算量，等等，这里也不再深入。一般对于一个问题，不同的核函数可能会带来不同的结果，一般是需要尝试来得到的。&lt;/p&gt;
 
@@ -1100,10 +1100,10 @@ repeat&lt;/p&gt;
     
     <item>
       <title>机器学习导论</title>
-      <link>/cedarbye.github.io/post/2015/2015_01_24%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA/</link>
+      <link>https://cedarbye.github.io/post/2015/2015_01_24%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA/</link>
       <pubDate>Sat, 24 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>/cedarbye.github.io/post/2015/2015_01_24%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA/</guid>
+      <guid>https://cedarbye.github.io/post/2015/2015_01_24%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA/</guid>
       <description>
 
 &lt;p&gt;机器学习（Machine Learning， ML）是什么，作为一个MLer，经常难以向大家解释何为ML。久而久之，发现要理解或解释机器学习是什么，可以从机器学习可以解决的问题这个角度来说。对于MLers，理解ML解决的问题的类型也有助于我们更好的准备数据和选择算法。&lt;/p&gt;
