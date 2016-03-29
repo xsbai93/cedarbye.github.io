@@ -17,7 +17,7 @@
       <guid>https://cedarbye.github.io/post/2016/2016_03_24%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95_mmseg/</guid>
       <description>
 
-&lt;p&gt;上面说完最大匹配算法，可是准确的似乎不高，啥正向最大匹配啊，说白了，就是拿着你的字典然后对文本进行暴力切割，这种算法切割出来的错误率肯定超级高，算法原理满大街都是，就不说了，时间复杂度倒挺低O(n)。&lt;/p&gt;
+&lt;p&gt;最大匹配算法的准确度似乎不高，啥正向最大匹配啊，说白了，就是拿着你的字典然后对文本进行暴力切割，这种算法切割出来的错误率肯定超级高，算法原理满大街都是，就不说了，时间复杂度倒挺低O(n)。&lt;/p&gt;
 
 &lt;p&gt;接着就换算法，学习了个也比较简单的mmseg算法，这是台湾同胞提出来的，其实就是对正向最大匹配算法进行了优化，这里的优化不是指优化时间复杂度，是优化降低错误率的，但是也会出现很奇葩的错误，让人看了都蛋疼。&lt;/p&gt;
 
@@ -185,18 +185,206 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
     </item>
     
     <item>
-      <title>机器学习——支持向量机算法(SVM)</title>
-      <link>https://cedarbye.github.io/post/2016/2016_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95%28SVM%29/</link>
-      <pubDate>Mon, 21 Mar 2016 00:00:00 +0000</pubDate>
+      <title>机器学习——BIRCH算法</title>
+      <link>https://cedarbye.github.io/post/2015/2015_04_15BIRCH%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Fri, 17 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://cedarbye.github.io/post/2016/2016_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%E7%AE%97%E6%B3%95%28SVM%29/</guid>
+      <guid>https://cedarbye.github.io/post/2015/2015_04_15BIRCH%E7%AE%97%E6%B3%95/</guid>
+      <description>
+
+&lt;h2 id=&#34;1-什么是birch算法:f94b0b3b1309c93b1ba6037086c08efc&#34;&gt;1. 什么是BIRCH算法？&lt;/h2&gt;
+
+&lt;p&gt;BIRCH（Balanced Iterative Reducing and Clustering using Hierarchies）天生就是为处理超大规模（至少要让你的内存容不下）的数据集而设计的，它可以在任何给定的内存下运行。&lt;/p&gt;
+
+&lt;p&gt;BIRCH算法的过程就是要把待分类的数据插入一棵树中，并且原始数据都在叶子节点上。&lt;/p&gt;
+
+&lt;p&gt;在这棵树中有3种类型的节点：Nonleaf、Leaf、MinCluster，Root可能是一种Nonleaf，也可能是一种Leaf。所有的Leaf放入一个双向链表中。每一个节点都包含一个CF值，CF是一个三元组，其中data point instance的个数，LS和SS是与数据点同维度的向量，LS是线性和，SS是平方和。比如有一个MinCluster里包含3个数据点(1,2,3)，(4,5,6)，(7,8,9)，则&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;N=3&lt;/p&gt;
+
+&lt;p&gt;LS=(1+4+7,2+5+8,3+6+9)=(12,15,18)&lt;/p&gt;
+
+&lt;p&gt;SS=(1+16+49,4+25+64,9+36+81)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;所谓两簇合并只需要两个对应的CF相加那可&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;CF1 + CF2 = (N1 + N2 , LS1 + LS2, SS1 + SS2)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;每个节点的CF值就是其所有孩子节点CF值之和，以每个节点为根节点的子树都可以看成 是一个簇。&lt;/p&gt;
+
+&lt;p&gt;Nonleaf、Leaf、MinCluster都是有大小限制的，Nonleaf的孩子节点不能超过B个，Leaf最多只能有L个MinCluster，而一个MinCluster的直径不能超过T。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-算法实现:f94b0b3b1309c93b1ba6037086c08efc&#34;&gt;2. 算法实现&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;算法起初，我们扫描数据库，拿到第一个data point instance&amp;ndash;（1,2,3）,我们创建一个空的Leaf和MinCluster，把点（1,2,3）的id值放入Mincluster，更新MinCluster的CF值为（1,（1,2,3），（1,4,9）），把MinCluster作为Leaf的一个孩子，更新Leaf的CF值为（1,（1,2,3），（1,4,9））。实际上只要往树中放入一个CF（这里我们用CF作为Nonleaf、Leaf、MinCluster的统称），就要更新从Root到该叶子节点的路径上所有节点的CF值。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;当又有一个数据点要插入树中时，把这个点封装为一个MinCluster（这样它就有了一个CF值），把新到的数据点记为CF_new，我们拿到树的根节点的各个孩子节点的CF值，根据D2来找到CF_new与哪个节点最近，就把CF_new加入那个子树上面去。这是一个递归的过程。递归的终止点是要把CF_new加入到一个MinCluster中，如果加入之后MinCluster的直径没有超过T，则直接加入，否则譔CF_new要单独作为一个簇，成为MinCluster的兄弟结点。插入之后注意更新该节点及其所有祖先节点的CF值。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;插入新节点后，可能有些节点的孩子数大于了B（或L），此时该节点要分裂。对于Leaf，它现在有L+1个MinCluster，我们要新创建一个Leaf，使它作为原Leaf的兄弟结点，同时注意每新创建一个Leaf都要把它插入到双向链表中。L+1个MinCluster要分到这两个Leaf中，怎么分呢？找出这L+1个MinCluster中距离最远的两个Cluster（根据D2），剩下的Cluster看离哪个近就跟谁站在一起。分好后更新两个Leaf的CF值，其祖先节点的CF值没有变化，不需要更新。这可能导致祖先节点的递归分裂，因为Leaf分裂后恰好其父节点的孩子数超过了B。Nonleaf的分裂方法与Leaf的相似，只不过产生新的Nonleaf后不需要把它放入一个双向链表中。如果是树的根节点要分裂，则树的高度加1。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;代码&lt;/p&gt;
+
+&lt;h2 id=&#34;3-总结:f94b0b3b1309c93b1ba6037086c08efc&#34;&gt;3. 总结&lt;/h2&gt;
+
+&lt;p&gt;优点：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;省内存。叶子节点放在磁盘分区上，非叶子节点仅仅是存储了一个CF值，外加指向父节点和孩子节点的指针。&lt;/li&gt;
+&lt;li&gt;快。合并两个两簇只需要两个CF算术相加即可；计算两个簇的距离只需要用到(N,LS,SS)这三个值足矣。&lt;/li&gt;
+&lt;li&gt;一遍扫描数据库即可建立B树。&lt;/li&gt;
+&lt;li&gt;可识别噪声点。建立好B树后把那些包含数据点少的MinCluster当作outlier。&lt;/li&gt;
+&lt;li&gt;由于B树是高度平衡的，所以在树上进行插入或查找操作很快。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;缺点：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;结果依赖于数据点的插入顺序。本属于同一个簇的点可能由于插入顺序相差很远而分到不同的簇中，即使同一个点在不同的时刻被插入，也会被分到不同的簇中。&lt;/li&gt;
+&lt;li&gt;对非球状的簇聚类效果不好。这取决于簇直径和簇间距离的计算方法。&lt;/li&gt;
+&lt;li&gt;对高维数据聚类效果不好。&lt;/li&gt;
+&lt;li&gt;由于每个节点只能包含一定数目的子节点，最后得出来的簇可能和自然簇相差很大。&lt;/li&gt;
+&lt;li&gt;BIRCH适合于处理需要数十上百小时聚类的数据，但在整个过程中算法一旦中断，一切必须从头再来。&lt;/li&gt;
+&lt;li&gt;局部性也导致了BIRCH的聚类效果欠佳。当一个新点要插入B树时，它只跟很少一部分簇进行了相似性（通过计算簇间距离）比较，高的efficient导致低的effective。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>机器学习———OPTICS算法</title>
+      <link>https://cedarbye.github.io/post/2015/2015_04_12OPTICS%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Sun, 12 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://cedarbye.github.io/post/2015/2015_04_12OPTICS%E7%AE%97%E6%B3%95/</guid>
+      <description>
+
+&lt;h2 id=&#34;1-什么是optics算法:2f3b26bd381ea7b4d97c66208712e19d&#34;&gt;1. 什么是OPTICS算法&lt;/h2&gt;
+
+&lt;p&gt;在前面介绍的DBSCAN算法中，有两个初始参数E（邻域半径）和minPts(E邻域最小点数)需要用户手动设置输入，并且聚类的类簇结果对这两个参数的取值非常敏感，不同的取值将产生不同的聚类结果，其实这也是大多数其他需要初始化参数聚类算法的弊端。&lt;br /&gt;
+为了克服DBSCAN算法这一缺点，提出了OPTICS算法（Ordering Points to identify the clustering structure）。OPTICS并 不显示的产生结果类簇，而是为聚类分析生成一个增广的簇排序（比如，以可达距离为纵轴，样本点输出次序为横轴的坐标图），这个排序代表了各样本点基于密度 的聚类结构。它包含的信息等价于从一个广泛的参数设置所获得的基于密度的聚类，换句话说，从这个排序中可以得到基于任何参数E和minPts的DBSCAN算法的聚类结果。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-optics两个概念:2f3b26bd381ea7b4d97c66208712e19d&#34;&gt;2. OPTICS两个概念&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;核心距离：
+对象p的核心距离是指是p成为核心对象的最小E’。如果p不是核心对象，那么p的核心距离没有任何意义。&lt;/li&gt;
+&lt;li&gt;可达距离：
+对象q到对象p的可达距离是指p的核心距离和p与q之间欧几里得距离之间的较大值。如果p不是核心对象，p和q之间的可达距离没有意义。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;例如：
+假设邻域半径E=2, minPts=3，存在点A(2,3),B(2,4),C(1,4),D(1,3),E(2,2),F(3,2)&lt;/p&gt;
+
+&lt;p&gt;点A为核心对象，在A的E领域中有点{A,B,C,D,E,F}，其中A的核心距离为E’=1，因为在点A的E’邻域中有点{A,B,D,E}&amp;gt;3;&lt;/p&gt;
+
+&lt;p&gt;点F到核心对象点A的可达距离为2^(&lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;2&lt;/sub&gt;)，因为A到F的欧几里得距离2^(&lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;2&lt;/sub&gt;)，大于点A的核心距离1.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;3-算法描述:2f3b26bd381ea7b4d97c66208712e19d&#34;&gt;3. 算法描述&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;算法：OPTICS&lt;/li&gt;
+&lt;li&gt;输入：样本集D, 邻域半径E, 给定点在E领域内成为核心对象的最小领域点数MinPts&lt;/li&gt;
+&lt;li&gt;输出：具有可达距离信息的样本点输出排序&lt;/li&gt;
+&lt;li&gt;方法：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;创建两个队列，有序队列和结果队列。（有序队列用来存储核心对象及其该核心对象的直接可达对象，并按可达距离升序排列；结果队列用来存储样本点的输出次序）；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果所有样本集D中所有点都处理完毕，则算法结束。否则，选择一个未处理（即不在结果队列中）且为核心对象的样本点，找到其所有直接密度可达样本点，如过该样本点不存在于结果队列中，则将其放入有序队列中，并按可达距离排序；&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;如果有序队列为空，则跳至步骤2，否则，从有序队列中取出第一个样本点（即可达距离最小的样本点）进行拓展，并将取出的样本点保存至结果队列中，如果它不存在结果队列当中的话。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;3.1 判断该拓展点是否是核心对象，如果不是，回到步骤3，否则找到该拓展点所有的直接密度可达点；&lt;/p&gt;
+
+&lt;p&gt;3.2 判断该直接密度可达样本点是否已经存在结果队列，是则不处理，否则下一步；&lt;/p&gt;
+
+&lt;p&gt;3.3 如果有序队列中已经存在该直接密度可达点，如果此时新的可达距离小于旧的可达距离，则用新可达距离取代旧可达距离，有序队列重新排序；&lt;/p&gt;
+
+&lt;p&gt;3.4 如果有序队列中不存在该直接密度可达样本点，则插入该点，并对有序队列重新排序；&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;4.算法结束，输出结果队列中的有序样本点。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这里的E和MinPts只是起到算法辅助作用，也就是说E和MinPts的细微变化并不会影响到样本点的相对输出顺序，这对我们分析聚类结果是没有任何影响。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>机器学习——K-means算法</title>
+      <link>https://cedarbye.github.io/post/2015/2015_04_05K-means%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Sun, 05 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://cedarbye.github.io/post/2015/2015_04_05K-means%E7%AE%97%E6%B3%95/</guid>
+      <description>
+
+&lt;h2 id=&#34;1-什么是k-means算法:7f423d20730d9400479993134038f0af&#34;&gt;1. 什么是K-means算法&lt;/h2&gt;
+
+&lt;p&gt;基本思想是初始随机给定K个簇中心，按照最邻近原则把待分类样本点分到各个簇。然后按平均法重新计算各个簇的质心，从而确定新的簇心。一直迭代，直到簇心的移动距离小于某个给定的值。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;选择K个点作为初始质心&lt;br /&gt;
+repeat&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;将每个点指派到最近的质心，形成K个簇&lt;br /&gt;
+重新计算每个簇的质心&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;until 簇不发生变化或达到最大迭代次数&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;em&gt;时间复杂度&lt;/em&gt; ：O(tKmn)，其中，t为迭代次数，K为簇的数目，m为记录数，n为维数&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;空间复杂度&lt;/em&gt; ：O((m+K)n)，其中，K为簇的数目，m为记录数，n为维数&lt;/p&gt;
+
+&lt;h2 id=&#34;2-算法过程:7f423d20730d9400479993134038f0af&#34;&gt;2. 算法过程&lt;/h2&gt;
+
+&lt;p&gt;k均值算法的计算过程非常直观：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;从D中随机取k个元素，作为k个簇的各自的中心。&lt;/li&gt;
+&lt;li&gt;分别计算剩下的元素到k个簇中心的相异度，将这些元素分别划归到相异度最低的簇。&lt;/li&gt;
+&lt;li&gt;根据聚类结果，重新计算k个簇各自的中心，计算方法是取簇中所有元素各自维度的算术平均数。&lt;/li&gt;
+&lt;li&gt;将D中全部元素按照新的中心重新聚类。&lt;/li&gt;
+&lt;li&gt;重复第4步，直到聚类结果不再变化。&lt;/li&gt;
+&lt;li&gt;将结果输出。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;代码&lt;/p&gt;
+
+&lt;h2 id=&#34;3-总结:7f423d20730d9400479993134038f0af&#34;&gt;3. 总结&lt;/h2&gt;
+
+&lt;p&gt;Kmenas算法试图找到使平凡误差准则函数最小的簇。当潜在的簇形状是凸面的，簇与簇之间区别较明显，且簇大小相近时，其聚类结果较理想。前面提到，该算法时间复杂度为O(tKmn)，与样本数量线性相关，所以，对于处理大数据集合，该算法非常高效，且伸缩性较好。但该算法除了要事先确定簇数K和对初始聚类中心敏感外，经常以局部最优结束，同时对“噪声”和孤立点敏感，并且该方法不适于发现非凸面形状的簇或大小差别很大的簇。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>机器学习——支持向量机(SVM)算法</title>
+      <link>https://cedarbye.github.io/post/2015/2015_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%28SVM%29%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Sat, 21 Mar 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://cedarbye.github.io/post/2015/2015_03_21%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA%28SVM%29%E7%AE%97%E6%B3%95/</guid>
       <description>
 
 &lt;p&gt;关于SVM的论文、书籍都非常的多，引用强哥的话“SVM是让应用数学家真正得到应用的一种算法”。SVM对于大部分的普通人来说，要完全理解其中的数学是非常困难的，所以要让这些普通人理解，得要把里面的数学知识用简单的语言去讲解才行。而且想明白了这些数学，对学习其他的内容也是大有裨益的。我就是属于绝大多数的普通人，为了看明白SVM，看了不少的资料，这里把我的心得分享分享。&lt;/p&gt;
 
 &lt;p&gt;其实现在能够找到的，关于SVM的中文资料已经不少了，不过个人觉得，每个人的理解都不太一样，所以还是决定写一写，一些雷同的地方肯定是不可避免的，不过还是希望能够写出一点与别人不一样的地方吧。另外本文准备不谈太多的数学（因为很多文章都谈过了），尽量简单地给出结论，就像题目一样-机器学习中的算法（之前叫做机器学习中的数学），所以本系列的内容将更偏重应用一些。如果想看更详细的数学解释，可以看看参考文献中的资料。&lt;/p&gt;
 
-&lt;h2 id=&#34;1-线性分类器:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;1. 线性分类器：&lt;/h2&gt;
+&lt;h2 id=&#34;1-线性分类器:8ec9919cf2ac15a793c4a896048e099d&#34;&gt;1. 线性分类器：&lt;/h2&gt;
 
 &lt;p&gt;首先给出一个非常非常简单的分类问题（线性可分），我们要用一条直线，将下图中黑色的点和白色的点分开，很显然，图上的这条直线就是我们要求的直线之一（可以有无数条这样的直线）。&lt;/p&gt;
 
@@ -250,7 +438,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 
 &lt;p&gt;s.t的意思是subject to，也就是在后面这个限制条件下的意思，这个词在svm的论文里面非常容易见到。这个其实是一个带约束的二次规划(quadratic programming, QP)问题，是一个凸问题，凸问题就是指的不会有局部最优解，可以想象一个漏斗，不管我们开始的时候将一个小球放在漏斗的什么位置，这个小球最终一定可以掉出漏斗，也就是得到全局最优解。s.t.后面的限制条件可以看做是一个凸多面体，我们要做的就是在这个凸多面体中找到最优解。这些问题这里不展开，因为展开的话，一本书也写不完。如果有疑问请看看wikipedia。&lt;/p&gt;
 
-&lt;h2 id=&#34;2-转化为对偶问题-并优化求解:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;2. 转化为对偶问题，并优化求解:&lt;/h2&gt;
+&lt;h2 id=&#34;2-转化为对偶问题-并优化求解:8ec9919cf2ac15a793c4a896048e099d&#34;&gt;2. 转化为对偶问题，并优化求解:&lt;/h2&gt;
 
 &lt;p&gt;这个优化问题可以用&lt;em&gt;拉格朗日乘子法&lt;/em&gt; 去解，使用了&lt;em&gt;KKT条件&lt;/em&gt; 的理论，这里直接作出这个式子的拉格朗日目标函数：&lt;/p&gt;
 
@@ -274,7 +462,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 
 &lt;p&gt;求解这个式子，有很多的方法，比如&lt;em&gt;SMO&lt;/em&gt; 等等，个人认为，求解这样的一个带约束的凸优化问题与得到这个凸优化问题是比较独立的两件事情，所以在这篇文章中准备完全不涉及如何求解这个话题，如果之后有时间可以补上一篇文章来谈谈:)。&lt;/p&gt;
 
-&lt;h2 id=&#34;3-线性不可分的情况-软间隔:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;3. 线性不可分的情况（软间隔）：&lt;/h2&gt;
+&lt;h2 id=&#34;3-线性不可分的情况-软间隔:8ec9919cf2ac15a793c4a896048e099d&#34;&gt;3. 线性不可分的情况（软间隔）：&lt;/h2&gt;
 
 &lt;p&gt;接下来谈谈线性不可分的情况，因为线性可分这种假设实在是太有局限性了：&lt;/p&gt;
 
@@ -304,7 +492,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 
 &lt;p&gt;蓝色的部分是与线性可分的对偶问题表达式的不同之处。在线性不可分情况下得到的对偶问题，不同的地方就是α的范围从[0, +∞)，变为了[0, C]，增加的惩罚ε没有为对偶问题增加什么复杂度。&lt;/p&gt;
 
-&lt;h2 id=&#34;4-核函数:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;4. 核函数：&lt;/h2&gt;
+&lt;h2 id=&#34;4-核函数:8ec9919cf2ac15a793c4a896048e099d&#34;&gt;4. 核函数：&lt;/h2&gt;
 
 &lt;p&gt;刚刚在谈不可分的情况下，提了一句，如果使用某些非线性的方法，可以得到将两个分类完美划分的曲线，比如接下来将要说的核函数。&lt;/p&gt;
 
@@ -338,9 +526,9 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 
 &lt;p&gt;上面这个核称为多项式核，下面这个核称为高斯核，高斯核甚至是将原始空间映射为无穷维空间，另外核函数有一些比较好的性质，比如说不会比线性条件下增加多少额外的计算量，等等，这里也不再深入。一般对于一个问题，不同的核函数可能会带来不同的结果，一般是需要尝试来得到的。&lt;/p&gt;
 
-&lt;h2 id=&#34;5-一些其他的问题:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;5. 一些其他的问题：&lt;/h2&gt;
+&lt;h2 id=&#34;5-一些其他的问题:8ec9919cf2ac15a793c4a896048e099d&#34;&gt;5. 一些其他的问题：&lt;/h2&gt;
 
-&lt;h3 id=&#34;如何进行多分类问题:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;如何进行多分类问题：&lt;/h3&gt;
+&lt;h3 id=&#34;如何进行多分类问题:8ec9919cf2ac15a793c4a896048e099d&#34;&gt;如何进行多分类问题：&lt;/h3&gt;
 
 &lt;p&gt;上面所谈到的分类都是2分类的情况，当N分类的情况下，主要有两种方式：一种是1vs(N–1)一种是1vs1。&lt;/p&gt;
 
@@ -350,7 +538,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 
 &lt;p&gt;这种处理方式不仅在SVM中会用到，在很多其他的分类中也是被广泛用到，从林教授（libsvm的作者）的结论来看，1vs1的方式要优于1vs(N–1)。&lt;/p&gt;
 
-&lt;h3 id=&#34;svm会overfitting吗:4dc3caf6b4d7802d8f111a93db869fdc&#34;&gt;SVM会overfitting吗？&lt;/h3&gt;
+&lt;h3 id=&#34;svm会overfitting吗:8ec9919cf2ac15a793c4a896048e099d&#34;&gt;SVM会overfitting吗？&lt;/h3&gt;
 
 &lt;p&gt;SVM避免overfitting，一种是调整之前说的惩罚函数中的C，另一种其实从式子上来看，min ||w||^2这个看起来是不是很眼熟？在最小二乘法回归的时候，我们看到过这个式子，这个式子可以让函数更平滑，所以SVM是一种不太容易over-fitting的方法。&lt;/p&gt;
 
@@ -365,15 +553,15 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
     
     <item>
       <title>机器学习导论</title>
-      <link>https://cedarbye.github.io/post/2016/2016_01_24%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA/</link>
-      <pubDate>Sun, 24 Jan 2016 00:00:00 +0000</pubDate>
+      <link>https://cedarbye.github.io/post/2015/2015_01_24%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA/</link>
+      <pubDate>Sat, 24 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://cedarbye.github.io/post/2016/2016_01_24%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA/</guid>
+      <guid>https://cedarbye.github.io/post/2015/2015_01_24%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AF%BC%E8%AE%BA/</guid>
       <description>
 
 &lt;p&gt;机器学习（Machine Learning， ML）是什么，作为一个MLer，经常难以向大家解释何为ML。久而久之，发现要理解或解释机器学习是什么，可以从机器学习可以解决的问题这个角度来说。对于MLers，理解ML解决的问题的类型也有助于我们更好的准备数据和选择算法。&lt;/p&gt;
 
-&lt;h3 id=&#34;十个机器学习问题样例:21e3e817c85a4a4726ba7ef794351613&#34;&gt;十个机器学习问题样例&lt;/h3&gt;
+&lt;h3 id=&#34;十个机器学习问题样例:a026595abc6cafd88e910b141621a264&#34;&gt;十个机器学习问题样例&lt;/h3&gt;
 
 &lt;p&gt;想入门机器学习的同学，经常会去看一些入门书，比如《集体智慧编程》、《机器学习实战》、《数据挖掘》、《推荐系统实践》等。看书的过程中，经常性的会看到如下样例：&lt;/p&gt;
 
@@ -392,7 +580,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 
 &lt;p&gt;因此，当再有人问ML是什么的时候，就可以说这个是ML可以handle的，这个问题ML也可以handle，blahblah。&lt;/p&gt;
 
-&lt;h3 id=&#34;机器学习问题类型:21e3e817c85a4a4726ba7ef794351613&#34;&gt;机器学习问题类型&lt;/h3&gt;
+&lt;h3 id=&#34;机器学习问题类型:a026595abc6cafd88e910b141621a264&#34;&gt;机器学习问题类型&lt;/h3&gt;
 
 &lt;p&gt;对问题进行分类，好处就在于可以更好的把握问题的本质，更好的知道什么类型的算法需要用到。&lt;/p&gt;
 
@@ -408,7 +596,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 
 &lt;p&gt;知道了机器学习要解决的问题后，就可以思考针对某一个问题，需要采集的数据的类型和可以使用的机器学习算法，机器学习发展到今天，诞生了很多算法，在实际应用中往往问题在于算法的选择，在本文中，使用两种标准对算法进行分类，即学习方式和算法之间的相似性。&lt;/p&gt;
 
-&lt;h3 id=&#34;学习方式-learning-style:21e3e817c85a4a4726ba7ef794351613&#34;&gt;学习方式（Learning Style）&lt;/h3&gt;
+&lt;h3 id=&#34;学习方式-learning-style:a026595abc6cafd88e910b141621a264&#34;&gt;学习方式（Learning Style）&lt;/h3&gt;
 
 &lt;p&gt;在ML中，只有几个主流的学习方式，在下面的介绍中，使用一些算法和问题的样例来对这些方式进行解释说明。按照学习方式对机器学习算法进行分类可以使我们更多的思考输入数据在算法中的角色和使用模型前需要的准备工作，对我们选择最适合的模型有很好的指导作用。&lt;/p&gt;
 
@@ -424,11 +612,11 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 
 &lt;p&gt;在商业决策中，一般会使用的方法是监督学习和无监督学习。当下一个热门的话题是半监督学习，比如在图片分类中，有很多数据集都是有少量的标记数据和大量的非标记数据。增强学习更多的用于机器人控制机其他的控制系统中。&lt;/p&gt;
 
-&lt;h3 id=&#34;算法相似度-algorithm-similarity:21e3e817c85a4a4726ba7ef794351613&#34;&gt;算法相似度（Algorithm Similarity）&lt;/h3&gt;
+&lt;h3 id=&#34;算法相似度-algorithm-similarity:a026595abc6cafd88e910b141621a264&#34;&gt;算法相似度（Algorithm Similarity）&lt;/h3&gt;
 
 &lt;p&gt;一般会根据模型的模式或者函数模式的相似度来对算法进行划分。比如基于树的方法（tree-based method）与神经网络算法（neural network）。当然，这种方法并不完美，因为很多算法可以很容易的被划分到多个类别中去，比如学习矢量量化算法（Learning Vector Quantization）既是神经网络算法也是基于样例的算法（Instance-based method）。在本文中，可以看到很多不同的分类方法。&lt;/p&gt;
 
-&lt;h4 id=&#34;回归-regression:21e3e817c85a4a4726ba7ef794351613&#34;&gt;回归（Regression）&lt;/h4&gt;
+&lt;h4 id=&#34;回归-regression:a026595abc6cafd88e910b141621a264&#34;&gt;回归（Regression）&lt;/h4&gt;
 
 &lt;p&gt;回归是在自变量和需要预测的变量之间构建一个模型，并使用迭代的方法逐渐降低预测值和真实值之间的误差。回归方法是统计机器学习的一种
 常用的回归算法如下：&lt;/p&gt;
@@ -441,7 +629,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Locally Estimated Scatterplot Smoothing（局部加权散点平滑法）&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;基于样例的方法-instance-based-methods:21e3e817c85a4a4726ba7ef794351613&#34;&gt;基于样例的方法（Instance-based Methods）&lt;/h4&gt;
+&lt;h4 id=&#34;基于样例的方法-instance-based-methods:a026595abc6cafd88e910b141621a264&#34;&gt;基于样例的方法（Instance-based Methods）&lt;/h4&gt;
 
 &lt;p&gt;基于样例的方法需要一个样本库，当新样本出现时，在样本库中找到最佳匹配的若干个样本，然后做出推测。基于样例的方法又被成为胜者为王的方法和基于内存的学习，该算法主要关注样本之间相似度的计算方法和存储数据的表示形式。&lt;/p&gt;
 
@@ -451,7 +639,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Self-Organizing Map (SOM)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;正则化方法-regularization-methods:21e3e817c85a4a4726ba7ef794351613&#34;&gt;正则化方法（Regularization Methods）&lt;/h4&gt;
+&lt;h4 id=&#34;正则化方法-regularization-methods:a026595abc6cafd88e910b141621a264&#34;&gt;正则化方法（Regularization Methods）&lt;/h4&gt;
 
 &lt;p&gt;这是一个对其他方法的延伸（通常是回归方法），这个延伸就是在模型上加上了一个惩罚项，相当于奥卡姆提到，对越简单的模型越有利，有防止过拟合的作用，并且更擅长归纳。我在这里列出它是因为它的流行和强大。&lt;/p&gt;
 
@@ -461,7 +649,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Elastic Net&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;决策树模型-decision-tree-learning:21e3e817c85a4a4726ba7ef794351613&#34;&gt;决策树模型（Decision Tree Learning）&lt;/h4&gt;
+&lt;h4 id=&#34;决策树模型-decision-tree-learning:a026595abc6cafd88e910b141621a264&#34;&gt;决策树模型（Decision Tree Learning）&lt;/h4&gt;
 
 &lt;p&gt;决策树方法建立了一个根据数据中属性的实际值决策的模型。决策树用来解决归纳和回归问题。&lt;/p&gt;
 
@@ -476,7 +664,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Gradient Boosting Machines (GBM)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;贝叶斯-bayesian:21e3e817c85a4a4726ba7ef794351613&#34;&gt;贝叶斯（Bayesian）&lt;/h4&gt;
+&lt;h4 id=&#34;贝叶斯-bayesian:a026595abc6cafd88e910b141621a264&#34;&gt;贝叶斯（Bayesian）&lt;/h4&gt;
 
 &lt;p&gt;贝叶斯方法是在解决归类和回归问题中应用了贝叶斯定理的方法。&lt;/p&gt;
 
@@ -486,7 +674,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Bayesian Belief Network (BBN)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;核方法-kernel-methods:21e3e817c85a4a4726ba7ef794351613&#34;&gt;核方法（Kernel Methods）&lt;/h4&gt;
+&lt;h4 id=&#34;核方法-kernel-methods:a026595abc6cafd88e910b141621a264&#34;&gt;核方法（Kernel Methods）&lt;/h4&gt;
 
 &lt;p&gt;核方法中最有名的是Support Vector Machines(支持向量机)。这种方法把输入数据映射到更高维度上，将其变得可分，使得归类和回归问题更容易建模。&lt;/p&gt;
 
@@ -496,7 +684,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Linear Discriminate Analysis (LDA)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;聚类-clustering-methods:21e3e817c85a4a4726ba7ef794351613&#34;&gt;聚类（Clustering Methods）&lt;/h4&gt;
+&lt;h4 id=&#34;聚类-clustering-methods:a026595abc6cafd88e910b141621a264&#34;&gt;聚类（Clustering Methods）&lt;/h4&gt;
 
 &lt;p&gt;聚类本身就形容了问题和方法。聚类方法通常是由建模方式分类的比如基于中心的聚类和层次聚类。所有的聚类方法都是利用数据的内在结构来组织数据，使得每组内的点有最大的共同性。&lt;/p&gt;
 
@@ -505,7 +693,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Expectation Maximisation (EM)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;联合规则学习-association-rule-learning:21e3e817c85a4a4726ba7ef794351613&#34;&gt;联合规则学习（Association Rule Learning）&lt;/h4&gt;
+&lt;h4 id=&#34;联合规则学习-association-rule-learning:a026595abc6cafd88e910b141621a264&#34;&gt;联合规则学习（Association Rule Learning）&lt;/h4&gt;
 
 &lt;p&gt;联合规则学习是用来对数据间提取规律的方法，通过这些规律可以发现巨量多维空间数据之间的联系，而这些重要的联系可以被组织拿来使用或者盈利。&lt;/p&gt;
 
@@ -514,7 +702,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Eclat algorithm&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;人工神经网络-artificial-neural-networks:21e3e817c85a4a4726ba7ef794351613&#34;&gt;人工神经网络（Artificial Neural Networks）&lt;/h4&gt;
+&lt;h4 id=&#34;人工神经网络-artificial-neural-networks:a026595abc6cafd88e910b141621a264&#34;&gt;人工神经网络（Artificial Neural Networks）&lt;/h4&gt;
 
 &lt;p&gt;受生物神经网络的结构和功能的启发诞生的人工神经网络属于模式匹配一类，经常被用于回归和分类问题，但是它存在上百个算法和变种组成。其中有一些是经典流行的算法（深度学习拿出来单独讲）：&lt;/p&gt;
 
@@ -526,7 +714,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Learning Vector Quantization (LVQ)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;深度学习-deep-learning:21e3e817c85a4a4726ba7ef794351613&#34;&gt;深度学习（Deep Learning）&lt;/h4&gt;
+&lt;h4 id=&#34;深度学习-deep-learning:a026595abc6cafd88e910b141621a264&#34;&gt;深度学习（Deep Learning）&lt;/h4&gt;
 
 &lt;p&gt;Deep Learning(深度学习)方法是人工神经网络在当下的一个变种。相比传统的神经网络，它更关注更加复杂的网络构成，许多方法都是关心半监督学习，就是一个大数据集中只有少量标注数据的那种问题。&lt;/p&gt;
 
@@ -537,7 +725,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Stacked Auto-encoders&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;降维-dimensionality-reduction:21e3e817c85a4a4726ba7ef794351613&#34;&gt;降维（Dimensionality Reduction）&lt;/h4&gt;
+&lt;h4 id=&#34;降维-dimensionality-reduction:a026595abc6cafd88e910b141621a264&#34;&gt;降维（Dimensionality Reduction）&lt;/h4&gt;
 
 &lt;p&gt;与聚类方法类似，对数据中的固有结构进行利用，使用无监督的方法学习一种方式，该方式用更少的信息来对数据做归纳和描述。这对于对数据进行可视化或者简化数据很有用，也有去除噪声的影响，经常采用这种方法使得算法更加高效。&lt;/p&gt;
 
@@ -549,7 +737,7 @@ Analysis类是用来具体实现切割算法的&lt;/p&gt;
 &lt;li&gt;Projection Pursuit&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;组合方法-ensemble-methods:21e3e817c85a4a4726ba7ef794351613&#34;&gt;组合方法（Ensemble Methods）&lt;/h4&gt;
+&lt;h4 id=&#34;组合方法-ensemble-methods:a026595abc6cafd88e910b141621a264&#34;&gt;组合方法（Ensemble Methods）&lt;/h4&gt;
 
 &lt;p&gt;Ensemble methods(组合方法)由许多小的模型组成，这些模型经过独立训练，做出独立的结论，最后汇总起来形成最后的预测。组合方法的研究点集中在使用什么模型以及这些模型怎么被组合起来。&lt;/p&gt;
 

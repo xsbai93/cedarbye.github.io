@@ -1,0 +1,204 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>cedar&#39;s blog</title>
+        <meta name="author">
+        <meta name="description" content="The awesome blog of cedar.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo 0.15" />
+        <link href="https://cedarbye.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="cedar&#39;s blog" />
+        <link href="https://cedarbye.github.io/post/index.xml" rel="feed" type="application/rss+xml" title="cedar&#39;s blog" />
+        
+        <link rel="stylesheet" href="https://cedarbye.github.io/css/styles.css">
+        <link rel="icon" href="https://cedarbye.github.io/favicon.ico">
+        <link rel="apple-touch-icon" href="https://cedarbye.github.io/apple-touch-icon.png" />
+        <script src="https://cedarbye.github.io/js/vendor/modernizr-2.8.0.min.js"></script>
+        <link rel="stylesheet" href="https://cedarbye.github.io/css/highlightjs/monokai.css">
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+        
+        <style>
+        .site-header h2 .logo {
+        background: url(https://cedarbye.github.io/img/desk.jpg) no-repeat 0 0;
+        }
+        @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
+          .site-header h2 .logo {
+            background-image: url(https://cedarbye.github.io/img/desk.jpg);
+        }}
+       .site-header {
+         background: #2a373d url(https://cedarbye.github.io/img/desk.jpg) no-repeat center center;
+         z-index: -1;
+        }
+        </style>
+    </head>
+    <body>
+        
+        <header class="site-header">
+          <div class="transparent-layer">
+              <h2>Notebook of Thinking</h2>
+          </div>
+        </header>
+
+
+<div class="container clearfix">
+    <main role="main" class="content">
+        <article class="post">
+            <a class="btn home" href="https://cedarbye.github.io/" title="Back to home">&laquo; Back to home</a>
+            
+<h1><a href="https://cedarbye.github.io/post/2015/2015_04_17DBSCAN%E7%AE%97%E6%B3%95/" title="机器学习——DBSCAN算法">机器学习——DBSCAN算法</a></h1>
+
+<footer class="post-info">Posted on <span class="post-meta"><time datetime="2015.04.17">2015.04.17</time>
+
+    &middot; Tagged in
+        
+        <a href="https://cedarbye.github.io/tags/python">python</a>
+        
+    
+
+</span>
+</footer>
+
+            
+
+<h2 id="1-什么是dbscan算法:cfad866b17f17627f7a4c667faafc845">1. 什么是DBSCAN算法</h2>
+
+<p>DBSCAN（Density-Based Spatial Clustering of Applications with Noise）聚类算法，它是一种基于高密度连通区域的、基于密度的聚类算法，能够将具有足够高密度的区域划分为簇，并在具有噪声的数据中发现任意形状的簇。我们总结一下DBSCAN聚类算法原理的基本要点：</p>
+
+<ul>
+<li>DBSCAN算法需要选择一种距离度量，对于待聚类的数据集中，任意两个点之间的距离，反映了点之间的密度，说明了点与点是否能够聚到同一类中。由于DBSCAN算法对高维数据定义密度很困难，所以对于二维空间中的点，可以使用欧几里德距离来进行度量。</li>
+
+<li><p>DBSCAN算法需要用户输入2个参数：一个参数是半径（Eps），表示以给定点P为中心的圆形邻域的范围；另一个参数是以点P为中心的邻域内最少点的数量（MinPts）。如果满足：以点P为中心、半径为Eps的邻域内的点的个数不少于MinPts，则称点P为核心点。</p></li>
+
+<li><p>DBSCAN聚类使用到一个k-距离的概念:</p></li>
+</ul>
+
+<blockquote>
+<p>k-距离是指：给定数据集P={p(i); i=0,1,…n}，对于任意点P(i)，计算点P(i)到集合D的子集S={p(1), p(2), …, p(i-1), p(i+1), …, p(n)}中所有点之间的距离，距离按照从小到大的顺序排序，假设排序后的距离集合为D={d(1), d(2), …, d(k-1), d(k), d(k+1), …,d(n)}，则d(k)就被称为k-距离。也就是说，k-距离是点p(i)到所有点（除了p(i)点）之间距离第k近的距离。对待聚类集合中每个点p(i)都计算k-距离，最后得到所有点的k-距离集合E={e(1), e(2), …, e(n)}。</p>
+</blockquote>
+
+<ul>
+<li><p>根据经验计算半径Eps：根据得到的所有点的k-距离集合E，对集合E进行升序排序后得到k-距离集合E’，需要拟合一条排序后的E’集合中k-距离的变化曲线图，然后绘出曲线，通过观察，将急剧发生变化的位置所对应的k-距离的值，确定为半径Eps的值。</p></li>
+
+<li><p>根据经验计算最少点的数量MinPts：确定MinPts的大小，实际上也是确定k-距离中k的值，DBSCAN算法取k=4，则MinPts=4。</p></li>
+
+<li><p>另外，如果觉得经验值聚类的结果不满意，可以适当调整Eps和MinPts的值，经过多次迭代计算对比，选择最合适的参数值。可以看出，如果MinPts不变，Eps取得值过大，会导致大多数点都聚到同一个簇中，Eps过小，会导致已一个簇的分裂；如果Eps不变，MinPts的值取得过大，会导致同一个簇中点被标记为噪声点，MinPts过小，会导致发现大量的核心点。</p></li>
+</ul>
+
+<p>我们需要知道的是，DBSCAN算法，需要输入2个参数，这两个参数的计算都来自经验知识。半径Eps的计算依赖于计算k-距离，DBSCAN取k=4，也就是设置MinPts=4，然后需要根据k-距离曲线，根据经验观察找到合适的半径Eps的值，下面的算法实现过程中，我们会详细说明。</p>
+
+<h2 id="2-算法实现:cfad866b17f17627f7a4c667faafc845">2. 算法实现</h2>
+
+<p>对于算法的实现，首先我们概要地描述一下实现的过程：</p>
+
+<ol>
+<li><p>解析样本数据文件</p></li>
+
+<li><p>计算每个点与其他所有点之间的欧几里德距离</p></li>
+
+<li><p>计算每个点的k-距离值，并对所有点的k-距离集合进行升序排序，输出的排序后的k-距离值</p></li>
+
+<li><p>将所有点的k-距离值，在Excel中用散点图显示k-距离变化趋势</p></li>
+
+<li><p>根据散点图确定半径Eps的值</p></li>
+
+<li><p>根据给定MinPts=4，以及半径Eps的值，计算所有核心点，并建立核心点与到核心点距离小于半径Eps的点的映射</p></li>
+
+<li><p>根据得到的核心点集合，以及半径Eps的值，计算能够连通的核心点，得到噪声点</p></li>
+
+<li><p>将能够连通的每一组核心点，以及到核心点距离小于半径Eps的点，都放到一起，形成一个簇</p></li>
+
+<li><p>选择不同的半径Eps，使用DBSCAN算法聚类得到的一组簇及其噪声点，使用散点图对比聚类效果</p></li>
+</ol>
+
+<p>代码</p>
+
+<h2 id="3-总结:cfad866b17f17627f7a4c667faafc845">3. 总结</h2>
+
+<p>因为DBSCAN聚类算法，是基于密度的聚类算法，所以对于密度分别不均，各个簇的密度变化较大时，可能会导致一些问题：比如半径Eps较大时，本来不属于同一个的簇的点被聚到一个簇中；比如半径Eps比较小时，会出现大量比较小的簇（即每个簇中含有的点不较少，但是这些点组成的小簇密度确实很大），同时出现了大量的点不满足成为核心点的要求，MinPts越大越容易出现这种情况。DBSCAN聚类算法的思想非常明确易懂，虽然需要用户输入2个参数，但是正是输入参数的灵活性，我们可以根据自己实际应用的需要，适当调整参数值，在特定应用场景下进行聚类分析，得到合适的簇划分。通过上面选择不同参数进行聚类的结果对比，如果希望局部比较密集的点都能够生成簇，那么在固定MinPts的值的条件下，半径Eps通过调整变小，可能达到这一需要，产生的簇的数量比较多，但是同时也产生了大量分散的噪声点，实际上应该可以进行二次聚类，将噪声点也通过合适的方式归到指定的簇中；如果希望生成全局比较大的簇，可以适当调整半径Eps变大，生成的簇的数量较少，噪声点的数量也相对较少</p>
+
+            <ul class="share-buttons">
+    <li>Share this article:</li>
+    <li>
+        <a class="icon-facebook-squared" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_04_17DBSCAN%25E7%25AE%2597%25E6%25B3%2595%2f" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook"></a>
+    </li>
+    <li>
+        <a class="icon-twitter" href="https://twitter.com/share?text=%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0%e2%80%94%e2%80%94DBSCAN%e7%ae%97%e6%b3%95&amp;url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_04_17DBSCAN%25E7%25AE%2597%25E6%25B3%2595%2f" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Tweet this article"></a>
+    </li>
+    <li>
+        <a class="icon-gplus" href="https://plus.google.com/share?url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_04_17DBSCAN%25E7%25AE%2597%25E6%25B3%2595%2f" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google&#43;"></a>
+    </li>
+    <li>
+        <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_04_17DBSCAN%25E7%25AE%2597%25E6%25B3%2595%2f&title=%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0%e2%80%94%e2%80%94DBSCAN%e7%ae%97%e6%b3%95" onclick="window.open(this.href, 'linkedin-share', 'width=600,height=494');return false;" title="Share on Linkedin"></a>
+    </li>
+</ul>
+
+        </article>
+        <div class="comments">
+            <h3>Comments</h3>
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'cedarbye';
+    var disqus_identifier = 'https:\/\/cedarbye.github.io\/post\/2015\/2015_04_17DBSCAN%E7%AE%97%E6%B3%95\/';
+    var disqus_title = '机器学习——DBSCAN算法';
+    var disqus_url = 'https:\/\/cedarbye.github.io\/post\/2015\/2015_04_17DBSCAN%E7%AE%97%E6%B3%95\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </main>
+    <aside class="author">
+  <img class="profile-image" src="https://cedarbye.github.io/img/profile-image.png" alt="cedar" />
+  <p class="name">by 
+  <strong>cedar</strong></p>
+  <p class="address">Tianjin China</p>
+  <p class="link"></p>
+  <ul class="social">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//github.com/cedarbye" class="icon-github" target="_blank" title="Github"></a></li>
+
+
+
+
+<li><a href="https://cedarbye.github.io/post/index.xml" class="icon-rss" target="_blank" title="RSS"></a></li>
+
+  </ul>
+  <br><br>
+</aside>
+
+</div>
+
+<footer class="main-footer">
+  <div class="container clearfix">
+        <a class="icon-rss" href="https://cedarbye.github.io/post/index.xml" title="RSS"></a>
+        <p>&copy; 2016 &middot; Powered by <a href="http://gohugo.io">Hugo</a>.</p>
+  </div>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>window.jQuery || document.write('<script src="https:\/\/cedarbye.github.io\/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+<script src="https://cedarbye.github.io/js/plugins.js"></script>
+
+</body>
+</html>
+

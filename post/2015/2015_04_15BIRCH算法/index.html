@@ -1,0 +1,209 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>cedar&#39;s blog</title>
+        <meta name="author">
+        <meta name="description" content="The awesome blog of cedar.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo 0.15" />
+        <link href="https://cedarbye.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="cedar&#39;s blog" />
+        <link href="https://cedarbye.github.io/post/index.xml" rel="feed" type="application/rss+xml" title="cedar&#39;s blog" />
+        
+        <link rel="stylesheet" href="https://cedarbye.github.io/css/styles.css">
+        <link rel="icon" href="https://cedarbye.github.io/favicon.ico">
+        <link rel="apple-touch-icon" href="https://cedarbye.github.io/apple-touch-icon.png" />
+        <script src="https://cedarbye.github.io/js/vendor/modernizr-2.8.0.min.js"></script>
+        <link rel="stylesheet" href="https://cedarbye.github.io/css/highlightjs/monokai.css">
+        
+        <script>hljs.initHighlightingOnLoad();</script>
+        
+        <style>
+        .site-header h2 .logo {
+        background: url(https://cedarbye.github.io/img/desk.jpg) no-repeat 0 0;
+        }
+        @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
+          .site-header h2 .logo {
+            background-image: url(https://cedarbye.github.io/img/desk.jpg);
+        }}
+       .site-header {
+         background: #2a373d url(https://cedarbye.github.io/img/desk.jpg) no-repeat center center;
+         z-index: -1;
+        }
+        </style>
+    </head>
+    <body>
+        
+        <header class="site-header">
+          <div class="transparent-layer">
+              <h2>Notebook of Thinking</h2>
+          </div>
+        </header>
+
+
+<div class="container clearfix">
+    <main role="main" class="content">
+        <article class="post">
+            <a class="btn home" href="https://cedarbye.github.io/" title="Back to home">&laquo; Back to home</a>
+            
+<h1><a href="https://cedarbye.github.io/post/2015/2015_04_15BIRCH%E7%AE%97%E6%B3%95/" title="机器学习——BIRCH算法">机器学习——BIRCH算法</a></h1>
+
+<footer class="post-info">Posted on <span class="post-meta"><time datetime="2015.04.17">2015.04.17</time>
+
+    &middot; Tagged in
+        
+        <a href="https://cedarbye.github.io/tags/ml">ml</a>
+        
+    
+
+</span>
+</footer>
+
+            
+
+<h2 id="1-什么是birch算法:f94b0b3b1309c93b1ba6037086c08efc">1. 什么是BIRCH算法？</h2>
+
+<p>BIRCH（Balanced Iterative Reducing and Clustering using Hierarchies）天生就是为处理超大规模（至少要让你的内存容不下）的数据集而设计的，它可以在任何给定的内存下运行。</p>
+
+<p>BIRCH算法的过程就是要把待分类的数据插入一棵树中，并且原始数据都在叶子节点上。</p>
+
+<p>在这棵树中有3种类型的节点：Nonleaf、Leaf、MinCluster，Root可能是一种Nonleaf，也可能是一种Leaf。所有的Leaf放入一个双向链表中。每一个节点都包含一个CF值，CF是一个三元组，其中data point instance的个数，LS和SS是与数据点同维度的向量，LS是线性和，SS是平方和。比如有一个MinCluster里包含3个数据点(1,2,3)，(4,5,6)，(7,8,9)，则</p>
+
+<blockquote>
+<p>N=3</p>
+
+<p>LS=(1+4+7,2+5+8,3+6+9)=(12,15,18)</p>
+
+<p>SS=(1+16+49,4+25+64,9+36+81)</p>
+</blockquote>
+
+<p>所谓两簇合并只需要两个对应的CF相加那可</p>
+
+<blockquote>
+<p>CF1 + CF2 = (N1 + N2 , LS1 + LS2, SS1 + SS2)</p>
+</blockquote>
+
+<p>每个节点的CF值就是其所有孩子节点CF值之和，以每个节点为根节点的子树都可以看成 是一个簇。</p>
+
+<p>Nonleaf、Leaf、MinCluster都是有大小限制的，Nonleaf的孩子节点不能超过B个，Leaf最多只能有L个MinCluster，而一个MinCluster的直径不能超过T。</p>
+
+<h2 id="2-算法实现:f94b0b3b1309c93b1ba6037086c08efc">2. 算法实现</h2>
+
+<ol>
+<li><p>算法起初，我们扫描数据库，拿到第一个data point instance&ndash;（1,2,3）,我们创建一个空的Leaf和MinCluster，把点（1,2,3）的id值放入Mincluster，更新MinCluster的CF值为（1,（1,2,3），（1,4,9）），把MinCluster作为Leaf的一个孩子，更新Leaf的CF值为（1,（1,2,3），（1,4,9））。实际上只要往树中放入一个CF（这里我们用CF作为Nonleaf、Leaf、MinCluster的统称），就要更新从Root到该叶子节点的路径上所有节点的CF值。</p></li>
+
+<li><p>当又有一个数据点要插入树中时，把这个点封装为一个MinCluster（这样它就有了一个CF值），把新到的数据点记为CF_new，我们拿到树的根节点的各个孩子节点的CF值，根据D2来找到CF_new与哪个节点最近，就把CF_new加入那个子树上面去。这是一个递归的过程。递归的终止点是要把CF_new加入到一个MinCluster中，如果加入之后MinCluster的直径没有超过T，则直接加入，否则譔CF_new要单独作为一个簇，成为MinCluster的兄弟结点。插入之后注意更新该节点及其所有祖先节点的CF值。</p></li>
+
+<li><p>插入新节点后，可能有些节点的孩子数大于了B（或L），此时该节点要分裂。对于Leaf，它现在有L+1个MinCluster，我们要新创建一个Leaf，使它作为原Leaf的兄弟结点，同时注意每新创建一个Leaf都要把它插入到双向链表中。L+1个MinCluster要分到这两个Leaf中，怎么分呢？找出这L+1个MinCluster中距离最远的两个Cluster（根据D2），剩下的Cluster看离哪个近就跟谁站在一起。分好后更新两个Leaf的CF值，其祖先节点的CF值没有变化，不需要更新。这可能导致祖先节点的递归分裂，因为Leaf分裂后恰好其父节点的孩子数超过了B。Nonleaf的分裂方法与Leaf的相似，只不过产生新的Nonleaf后不需要把它放入一个双向链表中。如果是树的根节点要分裂，则树的高度加1。</p></li>
+</ol>
+
+<p>代码</p>
+
+<h2 id="3-总结:f94b0b3b1309c93b1ba6037086c08efc">3. 总结</h2>
+
+<p>优点：</p>
+
+<ul>
+<li>省内存。叶子节点放在磁盘分区上，非叶子节点仅仅是存储了一个CF值，外加指向父节点和孩子节点的指针。</li>
+<li>快。合并两个两簇只需要两个CF算术相加即可；计算两个簇的距离只需要用到(N,LS,SS)这三个值足矣。</li>
+<li>一遍扫描数据库即可建立B树。</li>
+<li>可识别噪声点。建立好B树后把那些包含数据点少的MinCluster当作outlier。</li>
+<li>由于B树是高度平衡的，所以在树上进行插入或查找操作很快。</li>
+</ul>
+
+<p>缺点：</p>
+
+<ul>
+<li>结果依赖于数据点的插入顺序。本属于同一个簇的点可能由于插入顺序相差很远而分到不同的簇中，即使同一个点在不同的时刻被插入，也会被分到不同的簇中。</li>
+<li>对非球状的簇聚类效果不好。这取决于簇直径和簇间距离的计算方法。</li>
+<li>对高维数据聚类效果不好。</li>
+<li>由于每个节点只能包含一定数目的子节点，最后得出来的簇可能和自然簇相差很大。</li>
+<li>BIRCH适合于处理需要数十上百小时聚类的数据，但在整个过程中算法一旦中断，一切必须从头再来。</li>
+<li>局部性也导致了BIRCH的聚类效果欠佳。当一个新点要插入B树时，它只跟很少一部分簇进行了相似性（通过计算簇间距离）比较，高的efficient导致低的effective。</li>
+</ul>
+
+            <ul class="share-buttons">
+    <li>Share this article:</li>
+    <li>
+        <a class="icon-facebook-squared" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_04_15BIRCH%25E7%25AE%2597%25E6%25B3%2595%2f" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook"></a>
+    </li>
+    <li>
+        <a class="icon-twitter" href="https://twitter.com/share?text=%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0%e2%80%94%e2%80%94BIRCH%e7%ae%97%e6%b3%95&amp;url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_04_15BIRCH%25E7%25AE%2597%25E6%25B3%2595%2f" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Tweet this article"></a>
+    </li>
+    <li>
+        <a class="icon-gplus" href="https://plus.google.com/share?url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_04_15BIRCH%25E7%25AE%2597%25E6%25B3%2595%2f" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google&#43;"></a>
+    </li>
+    <li>
+        <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fcedarbye.github.io%2fpost%2f2015%2f2015_04_15BIRCH%25E7%25AE%2597%25E6%25B3%2595%2f&title=%e6%9c%ba%e5%99%a8%e5%ad%a6%e4%b9%a0%e2%80%94%e2%80%94BIRCH%e7%ae%97%e6%b3%95" onclick="window.open(this.href, 'linkedin-share', 'width=600,height=494');return false;" title="Share on Linkedin"></a>
+    </li>
+</ul>
+
+        </article>
+        <div class="comments">
+            <h3>Comments</h3>
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'cedarbye';
+    var disqus_identifier = 'https:\/\/cedarbye.github.io\/post\/2015\/2015_04_15BIRCH%E7%AE%97%E6%B3%95\/';
+    var disqus_title = '机器学习——BIRCH算法';
+    var disqus_url = 'https:\/\/cedarbye.github.io\/post\/2015\/2015_04_15BIRCH%E7%AE%97%E6%B3%95\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+    </main>
+    <aside class="author">
+  <img class="profile-image" src="https://cedarbye.github.io/img/profile-image.png" alt="cedar" />
+  <p class="name">by 
+  <strong>cedar</strong></p>
+  <p class="address">Tianjin China</p>
+  <p class="link"></p>
+  <ul class="social">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<li><a href="//github.com/cedarbye" class="icon-github" target="_blank" title="Github"></a></li>
+
+
+
+
+<li><a href="https://cedarbye.github.io/post/index.xml" class="icon-rss" target="_blank" title="RSS"></a></li>
+
+  </ul>
+  <br><br>
+</aside>
+
+</div>
+
+<footer class="main-footer">
+  <div class="container clearfix">
+        <a class="icon-rss" href="https://cedarbye.github.io/post/index.xml" title="RSS"></a>
+        <p>&copy; 2016 &middot; Powered by <a href="http://gohugo.io">Hugo</a>.</p>
+  </div>
+</footer>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>window.jQuery || document.write('<script src="https:\/\/cedarbye.github.io\/js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+<script src="https://cedarbye.github.io/js/plugins.js"></script>
+
+</body>
+</html>
+
